@@ -76,7 +76,6 @@ func center_player_on(p_transform : Transform3D):
 	# And now update our origin point
 	$XROrigin3D.global_transform = (p_transform * transform.inverse()).orthonormalized()
 
-
 ## This method is called when the scene is loaded, but before it becomes visible.
 ##
 ## The [param user_data] parameter is an optional parameter passed in when the

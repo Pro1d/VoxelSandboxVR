@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://b1u5uttihu8jk"]
+
+[ext_resource type="Script" path="res://scripts/voxel_editor_tool.gd" id="1_nheh0"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_lfx5y"]
+radius = 0.003
+height = 0.006
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yf3u6"]
+metallic = 1.0
+roughness = 0.43
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dy46v"]
+top_radius = 0.002
+bottom_radius = 0.001
+height = 0.1
+
+[node name="VoxelEditorTool" type="Node3D"]
+script = ExtResource("1_nheh0")
+
+[node name="Pointer" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.075)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pointer"]
+mesh = SubResource("SphereMesh_lfx5y")
+surface_material_override/0 = SubResource("StandardMaterial3D_yf3u6")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Pointer"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -2.17291e-09, 0.0497103)
+mesh = SubResource("CylinderMesh_dy46v")
+surface_material_override/0 = SubResource("StandardMaterial3D_yf3u6")

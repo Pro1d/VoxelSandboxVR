@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://bkws2c0t51w4h"]
+
+[ext_resource type="Shader" path="res://resources/shaders/tool_selection_wheel.gdshader" id="1_nid4s"]
+[ext_resource type="Script" path="res://scripts/tool_selection_wheel.gd" id="2_ayadm"]
+[ext_resource type="Texture2D" uid="uid://dd7bkt8niun1l" path="res://assets/textures/add_cube.png" id="3_m8lll"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xu2am"]
+size = Vector2(0.06, 0.06)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vywk2"]
+render_priority = 0
+shader = ExtResource("1_nid4s")
+shader_parameter/cos_half_quadrant_size = 0.8
+shader_parameter/quadrant_direction = Vector2(1, 0)
+shader_parameter/quadrant_opacity = 0.8
+shader_parameter/inner_radius_ratio = 0.3
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xebi7"]
+size = Vector2(0.015, 0.015)
+center_offset = Vector3(0, 0.001, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ddc5o"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 2
+alpha_antialiasing_edge = 0.3
+albedo_texture = ExtResource("3_m8lll")
+
+[node name="ToolSelectionWheel" type="Node3D"]
+script = ExtResource("2_ayadm")
+
+[node name="RingMeshInstance3D" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+mesh = SubResource("PlaneMesh_xu2am")
+surface_material_override/0 = SubResource("ShaderMaterial_vywk2")
+
+[node name="IconMeshInstance3D" type="MeshInstance3D" parent="RingMeshInstance3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0201987, 0, 0)
+mesh = SubResource("PlaneMesh_xebi7")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_ddc5o")
+
+[node name="Label3D" type="Label3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0.00473867, -0.0343825)
+pixel_size = 0.001
+billboard = 1
+text = "Put Cube"
+vertical_alignment = 2

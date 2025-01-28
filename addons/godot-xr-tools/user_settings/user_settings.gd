@@ -1,3 +1,4 @@
+class_name XRToolsSettings
 extends Node
 
 
@@ -220,4 +221,3 @@ func get_adjusted_vector2(p_controller, p_input_action):
 			vector.x *= -1
 
 	return vector
-

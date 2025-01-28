@@ -1,0 +1,44 @@
+// NOTE: Shader automatically converted from Godot Engine 4.3.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, depth_prepass_alpha, cull_disabled, unshaded;
+
+const vec3 to_luminance = vec3(.299, .587, .114);
+
+uniform float alpha = 1.0;
+uniform vec4 albedo : source_color;
+uniform float margin = 0.0;
+//uniform vec3 box_size = vec3(1.0);
+varying vec2 uv;
+varying vec2 uv_scale;
+
+void vertex() {
+	vec3 n = abs(NORMAL);
+	if (n.x > 0.001)
+		uv = VERTEX.yz;
+	else if (n.y > 0.001)
+		uv = VERTEX.zx;
+	else // (n.z > 0.0)
+		uv = VERTEX.xy;
+
+	uv -= sign(uv) * vec2(margin);
+	uv_scale = 1.0 / abs(uv);
+	uv *= uv_scale;
+}
+
+void fragment() {
+	vec2 offset = abs(uv);
+	vec2 shape2 = smoothstep(1.0 - 0.03 * uv_scale, 1.0 - 0.01 * uv_scale, abs(uv));
+	float shape = max(shape2.x, shape2.y);
+	//vec2 uv_ = fract(UV * vec2(3, 2));
+	//vec2 offset = abs(uv_ - vec2(.5)) * 2.0;
+	//float n_max = max(offset.x, offset.y);
+	//float n_min = min(offset.x, offset.y);
+	//float shape = smoothstep(.97, .99, n_max);// * smoothstep(0.7, 0.72, n_min*n_min);
+
+	float lum = dot(albedo.rgb, to_luminance);
+	ALBEDO = mix(albedo.rgb, mix(albedo.rgb, vec3(step(lum, .7)), 0.65), shape);
+	float r = length(offset) / 1.41;
+	float gradient = mix(.15, 1., r * r * r);
+	ALPHA *= mix(1.0 * alpha * gradient, 1.0, shape);
+}

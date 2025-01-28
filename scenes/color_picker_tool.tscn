@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://bxpqeov8yslgx"]
+
+[ext_resource type="Script" path="res://scripts/color_picker_tool.gd" id="1_j5wpo"]
+[ext_resource type="Shader" path="res://resources/shaders/picker.gdshader" id="2_nvoj1"]
+
+[sub_resource type="Curve" id="Curve_ft2kf"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.713483, 0.835165), 0.0, 0.0, 0, 0, Vector2(1, 0.197802), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_7oj5u"]
+radius = 0.005
+radial_steps = 12
+sections = 2
+section_length = 0.065
+section_rings = 6
+cap_top = false
+cap_bottom = false
+curve = SubResource("Curve_ft2kf")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tl6xk"]
+render_priority = 0
+shader = ExtResource("2_nvoj1")
+shader_parameter/paint_color = null
+shader_parameter/albedo = Color(0.803636, 0.853828, 0.914937, 1)
+shader_parameter/specular = 0.8
+shader_parameter/metallic = 0.5
+shader_parameter/roughness = 0.3
+
+[sub_resource type="SphereMesh" id="SphereMesh_q3t6g"]
+radius = 0.01
+height = 0.02
+
+[node name="ColorPickerTool" type="Node3D"]
+script = ExtResource("1_j5wpo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.60861e-09, -0.059678)
+mesh = SubResource("TubeTrailMesh_7oj5u")
+surface_material_override/0 = SubResource("ShaderMaterial_tl6xk")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("SphereMesh_q3t6g")
+skeleton = NodePath("../MeshInstance3D")
+surface_material_override/0 = SubResource("ShaderMaterial_tl6xk")
+
+[node name="PointerMarker3D" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.18025e-09, -0.124878)

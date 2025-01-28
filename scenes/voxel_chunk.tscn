@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://susm45c701iu"]
+
+[ext_resource type="Script" path="res://scripts/voxel_chunk.gd" id="1_8dtut"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7i8el"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(1, 0.43, 0.43, 0.317647)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rjbt8"]
+material = SubResource("StandardMaterial3D_7i8el")
+size = Vector3(8, 8, 8)
+
+[node name="VoxelChunk" type="Node3D"]
+script = ExtResource("1_8dtut")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 3.5, 3.5)
+visible = false
+mesh = SubResource("BoxMesh_rjbt8")

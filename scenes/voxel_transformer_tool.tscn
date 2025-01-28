@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://rveu2i12t2oa"]
+
+[ext_resource type="Script" path="res://scripts/voxel_transformer_tool.gd" id="1_vahic"]
+
+[node name="VoxelTransformerTool" type="Node3D"]
+script = ExtResource("1_vahic")
