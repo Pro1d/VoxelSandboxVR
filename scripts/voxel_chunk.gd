@@ -35,12 +35,13 @@ func update_cell(cell_pos: Vector3i, neighbors: int, cell: VoxelData.Cell) -> vo
 	if cell_node == null:
 		cell_node = Node3D.new()
 		for i in range(VoxelData.Side.size()):
-			var mi := MeshInstance3D.new()
-			mi.mesh = _side_faces[i]
-			mi.visible = ((neighbors >> i) & 1) == 0
 			var mat := StandardMaterial3D.new()
 			mat.diffuse_mode = BaseMaterial3D.DIFFUSE_LAMBERT_WRAP
 			mat.albedo_color = cell.color
+			var mi := MeshInstance3D.new()
+			mi.mesh = _side_faces[i]
+			mi.visible = ((neighbors >> i) & 1) == 0
+			mi.layers = 0b11
 			mi.set_surface_override_material(0, mat)
 			cell_node.add_child(mi)
 		add_child(cell_node)

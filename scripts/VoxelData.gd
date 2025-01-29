@@ -52,8 +52,8 @@ class Cell:
 @export var version := CURRENT_VERSION
 @export var chunks : Dictionary  # Dict[Vector3i, PackedByteArray]
 
-var chunk_aabb_min : Vector3i
-var chunk_aabb_max : Vector3i
+@export var chunk_aabb_min : Vector3i
+@export var chunk_aabb_max : Vector3i
 
 static func get_chunk_index(cell_pos: Vector3i) -> Vector3i:
 	return (cell_pos - get_cell_index(cell_pos)) / CHUNK_SIZE

@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlj0cjfk5pcq"]
+
+[ext_resource type="Script" path="res://scripts/ui/save_file_manager_ui.gd" id="1_hhhgu"]
+[ext_resource type="PackedScene" uid="uid://c5gu2k5wtot28" path="res://scenes/ui/file_grid.tscn" id="2_mnl86"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_b8ko0"]
+font_size = 64
+
+[node name="SaveFileManagerUI" type="PanelContainer"]
+offset_right = 610.0
+offset_bottom = 610.0
+script = ExtResource("1_hhhgu")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="SaveFileManagerUI" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/SaveFileManagerUI"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/SaveFileManagerUI/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save"
+label_settings = SubResource("LabelSettings_b8ko0")
+
+[node name="CloseButton" type="Button" parent="MarginContainer/SaveFileManagerUI/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+text = "Close"
+
+[node name="FileGrid" parent="MarginContainer/SaveFileManagerUI" instance=ExtResource("2_mnl86")]
+unique_name_in_owner = true
+layout_mode = 2

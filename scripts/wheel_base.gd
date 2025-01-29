@@ -28,7 +28,7 @@ func _process(_delta: float) -> void:
 	handle_joystick_input(joystick_angle, joystick_length)
 
 func _update_inclination(angle: float, strength: float) -> void:
-	var inclination := -(strength ** 2) * PI / 12
+	var inclination := -(strength ** 2) * PI * 0.07
 	ring_mesh.transform.basis = Basis(Vector3(0, 0, 1).rotated(Vector3.UP, angle), inclination)
 
 func _on_webxr_primary_changed(webxr_primary: int) -> void:

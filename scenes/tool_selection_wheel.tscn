@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dd7bkt8niun1l" path="res://assets/textures/add_cube.png" id="3_m8lll"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_xu2am"]
-size = Vector2(0.06, 0.06)
+size = Vector2(0.064, 0.064)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vywk2"]
 render_priority = 0

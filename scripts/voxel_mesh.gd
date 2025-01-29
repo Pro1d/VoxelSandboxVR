@@ -17,6 +17,16 @@ var voxel_data := VoxelData.new()
 
 var _chunk_nodes := {} # Dict[chunk_hash, ChunkNode]
 
+func reset_data(vd: VoxelData) -> void:
+	assert(vd != null)
+	voxel_data = vd # TODO notify data changed (if vd != voxel_data)
+	for chunk: VoxelChunk in _chunk_nodes.values():
+		chunk.queue_free()
+		remove_child(chunk)
+	_chunk_nodes.clear()
+	if not voxel_data.is_empty():
+		update(voxel_data.chunk_aabb_min * VoxelData.CHUNK_SIZE, (voxel_data.chunk_aabb_max + Vector3i.ONE) * VoxelData.CHUNK_SIZE)
+
 func global_to_voxel(pos: Vector3) -> Vector3i:
 	return Vector3i(to_local(pos).round())
 
