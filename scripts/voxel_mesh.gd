@@ -25,7 +25,7 @@ func reset_data(vd: VoxelData) -> void:
 		remove_child(chunk)
 	_chunk_nodes.clear()
 	if not voxel_data.is_empty():
-		update(voxel_data.chunk_aabb_min * VoxelData.CHUNK_SIZE, (voxel_data.chunk_aabb_max + Vector3i.ONE) * VoxelData.CHUNK_SIZE)
+		update(voxel_data.chunk_aabb_min * voxel_data.chunk_size, (voxel_data.chunk_aabb_max + Vector3i.ONE) * voxel_data.chunk_size)
 
 func global_to_voxel(pos: Vector3) -> Vector3i:
 	return Vector3i(to_local(pos).round())
@@ -47,17 +47,17 @@ func update(imin: Vector3i, imax: Vector3i) -> void:
 					_clear_cell(cell_pos)
 
 func _update_cell(cell_pos: Vector3i, neighbors: int) -> void:
-	var chunk_index := VoxelData.get_chunk_index(cell_pos)
+	var chunk_index := voxel_data.get_chunk_index(cell_pos)
 	var chunk_node := _chunk_nodes.get(chunk_index) as VoxelChunk
 	if chunk_node == null:
 		chunk_node = VoxelChunkScene.instantiate()  as VoxelChunk # VoxelChunk.new()
-		chunk_node.position = chunk_index * VoxelData.CHUNK_SIZE
+		chunk_node.position = chunk_index * voxel_data.chunk_size
 		_chunk_nodes[chunk_index] = chunk_node
 		add_child(chunk_node)
 	chunk_node.update_cell(cell_pos, neighbors, voxel_data.get_cell(cell_pos))
 
 func _clear_cell(cell_pos: Vector3i) -> void:
-	var chunk_index := VoxelData.get_chunk_index(cell_pos)
+	var chunk_index := voxel_data.get_chunk_index(cell_pos)
 	var chunk_node := _chunk_nodes.get(chunk_index) as VoxelChunk
 	if chunk_node != null:
 		chunk_node.clear_cell(cell_pos)

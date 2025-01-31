@@ -2,9 +2,9 @@ class_name VoxelData
 extends Resource
 
 const CURRENT_VERSION := 0
-const CHUNK_SIZE := 4 # cell
-const CELL_BUFFER_SIZE := 2 # Bytes
-const CHUNK_BUFFER_SIZE := CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * CELL_BUFFER_SIZE
+#const chunk_size := 4 # cell
+#const cell_buffer_size := 2 # Bytes
+#const chunk_buffer_size := chunk_size * chunk_size * chunk_size * cell_buffer_size
 const ALL_NEIGHBORS := 0b111111
 const NO_NEIGHBOR := 0b000000
 
@@ -53,49 +53,55 @@ class Cell:
 @export var chunk_aabb_min : Vector3i
 @export var chunk_aabb_max : Vector3i
 
-static func get_chunk_index(cell_pos: Vector3i) -> Vector3i:
-	return (cell_pos - get_cell_index(cell_pos)) / CHUNK_SIZE
+@export var chunk_size := 4 # cells
+@export var cell_buffer_size := 2 # bytes
+var chunk_buffer_size: int:
+	get():
+		return chunk_size * chunk_size * chunk_size * cell_buffer_size
 
-static func get_cell_index(cell_pos: Vector3i) -> Vector3i:
+func get_chunk_index(cell_pos: Vector3i) -> Vector3i:
+	return (cell_pos - get_cell_index(cell_pos)) / chunk_size
+
+func get_cell_index(cell_pos: Vector3i) -> Vector3i:
 	return Vector3i(
-		posmod(cell_pos.x, CHUNK_SIZE),
-		posmod(cell_pos.y, CHUNK_SIZE),
-		posmod(cell_pos.z, CHUNK_SIZE),
+		posmod(cell_pos.x, chunk_size),
+		posmod(cell_pos.y, chunk_size),
+		posmod(cell_pos.z, chunk_size),
 	)
 
-static func get_cell_offset(cell_index: Vector3i) -> int:
-	return cell_index.x + CHUNK_SIZE * (cell_index.y + CHUNK_SIZE * cell_index.z)
+func get_cell_offset(cell_index: Vector3i) -> int:
+	return cell_index.x + chunk_size * (cell_index.y + chunk_size * cell_index.z)
 
 func is_empty() -> bool:
 	return chunks.is_empty()
 
 func get_cell(cell_pos: Vector3i) -> Cell:
-	var chunk_index := VoxelData.get_chunk_index(cell_pos)
+	var chunk_index := get_chunk_index(cell_pos)
 	var chunk : Variant = chunks.get(chunk_index)
 	
 	var cell : Cell = null
 	if chunk is PackedByteArray:
-		var cell_index := VoxelData.get_cell_index(cell_pos)
-		var offset := VoxelData.get_cell_offset(cell_index)
-		var u16 := (chunk as PackedByteArray).decode_u16(offset * CELL_BUFFER_SIZE)
+		var cell_index := get_cell_index(cell_pos)
+		var offset := get_cell_offset(cell_index)
+		var u16 := (chunk as PackedByteArray).decode_u16(offset * cell_buffer_size)
 		cell = Cell.from_u16(u16)
 	
 	return cell
 
 func has_cell(cell_pos: Vector3i) -> bool:
-	var chunk_index := VoxelData.get_chunk_index(cell_pos)
+	var chunk_index := get_chunk_index(cell_pos)
 	var chunk : Variant = chunks.get(chunk_index)
 	
 	if chunk is PackedByteArray:
-		var cell_index := VoxelData.get_cell_index(cell_pos)
-		var offset := VoxelData.get_cell_offset(cell_index)
-		var u16 := (chunk as PackedByteArray).decode_u16(offset * CELL_BUFFER_SIZE)
+		var cell_index := get_cell_index(cell_pos)
+		var offset := get_cell_offset(cell_index)
+		var u16 := (chunk as PackedByteArray).decode_u16(offset * cell_buffer_size)
 		return Cell.is_cell(u16)
 	
 	return false
 
 func set_cell(cell_pos: Vector3i, cell: Cell) -> void:
-	var chunk_index := VoxelData.get_chunk_index(cell_pos)
+	var chunk_index := get_chunk_index(cell_pos)
 	
 	if not chunks.has(chunk_index):
 		if cell != null:
@@ -105,11 +111,11 @@ func set_cell(cell_pos: Vector3i, cell: Cell) -> void:
 			return
 	
 	var chunk : PackedByteArray = chunks[chunk_index]
-	var cell_index := VoxelData.get_cell_index(cell_pos)
-	var offset := VoxelData.get_cell_offset(cell_index)
+	var cell_index := get_cell_index(cell_pos)
+	var offset := get_cell_offset(cell_index)
 	
 	var u16 := Cell.to_u16(cell)
-	chunk.encode_u16(offset * CELL_BUFFER_SIZE, u16)
+	chunk.encode_u16(offset * cell_buffer_size, u16)
 	
 	if cell == null and chunk.count(0) == chunk.size():
 		# the chunk is now empty
@@ -138,16 +144,16 @@ func compute_aabb() -> Array[Vector3i]:
 	for chunk_index: Vector3i in chunks.keys():
 		var chunk : PackedByteArray = chunks[chunk_index]
 		
-		if initialized and imin.min(chunk_index * CHUNK_SIZE) == imin and imax.max(chunk_index * CHUNK_SIZE - Vector3i.ONE) == imax:
+		if initialized and imin.min(chunk_index * chunk_size) == imin and imax.max(chunk_index * chunk_size - Vector3i.ONE) == imax:
 			continue  # chunk is inside imin/imax
 		
 		var cell_offset := 0
-		for z in range(CHUNK_SIZE):
-			for y in range(CHUNK_SIZE):
-				for x in range(CHUNK_SIZE):
-					var has_content := (chunk.decode_u16(cell_offset * CELL_BUFFER_SIZE) & 1) != 0
+		for z in range(chunk_size):
+			for y in range(chunk_size):
+				for x in range(chunk_size):
+					var has_content := (chunk.decode_u16(cell_offset * cell_buffer_size) & 1) != 0
 					if has_content:
-						var cell_pos := Vector3i(x, y, z) + chunk_index * CHUNK_SIZE
+						var cell_pos := Vector3i(x, y, z) + chunk_index * chunk_size
 						if not initialized:
 							imin = cell_pos
 							imax = cell_pos
@@ -161,7 +167,7 @@ func compute_aabb() -> Array[Vector3i]:
 
 func _create_chunk(chunk_index: Vector3i) -> void:
 	var c := PackedByteArray()
-	c.resize(CHUNK_BUFFER_SIZE)
+	c.resize(chunk_buffer_size)
 	chunks[chunk_index] = c
 	
 	if chunks.size() == 1:

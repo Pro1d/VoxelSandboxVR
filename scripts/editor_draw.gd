@@ -43,8 +43,8 @@ func can_draw_cell_at(cell_pos: Vector3i) -> bool:
 	return (
 		voxel_data.is_empty() or
 		cell_pos.clamp(
-			voxel_data.chunk_aabb_min * VoxelData.CHUNK_SIZE - margin,
-			(voxel_data.chunk_aabb_max + Vector3i.ONE) * VoxelData.CHUNK_SIZE + margin - Vector3i.ONE
+			voxel_data.chunk_aabb_min * voxel_data.chunk_size - margin,
+			(voxel_data.chunk_aabb_max + Vector3i.ONE) * voxel_data.chunk_size + margin - Vector3i.ONE
 		) == cell_pos
 	)
 	#return (

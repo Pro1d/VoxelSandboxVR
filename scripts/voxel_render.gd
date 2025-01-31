@@ -24,10 +24,10 @@ func render_voxel(voxel_mesh: VoxelMesh = null) -> Image:
 	
 	# Compute bounding sphere
 	var corner1 := voxel_mesh.to_global(
-		voxel_data.chunk_aabb_min * VoxelData.CHUNK_SIZE
+		voxel_data.chunk_aabb_min * voxel_data.chunk_size
 	)
 	var corner2 := voxel_mesh.to_global(
-		(Vector3(voxel_data.chunk_aabb_max) + Vector3.ONE) * VoxelData.CHUNK_SIZE - Vector3.ONE
+		(Vector3(voxel_data.chunk_aabb_max) + Vector3.ONE) * voxel_data.chunk_size - Vector3.ONE
 	)
 	var center := (corner1 + corner2) / 2
 	var radius := maxf(center.distance_to(corner2), 0.01)  # ensure not empty bounding sphere
