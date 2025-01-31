@@ -1,6 +1,11 @@
 class_name WheelBase
 extends Node3D
 
+@export var enabled := true:
+	set(e):
+		if enabled != e:
+			enabled = e
+			visible = e
 @export var quadrant_count := 6
 
 var _input_action_tool_selector := "primary"
@@ -25,7 +30,8 @@ func _process(_delta: float) -> void:
 	var joystick_length := lerpf(deadzone, 1.0, minf(joystick_position.length(), 1.0))
 	
 	_update_inclination(joystick_angle, joystick_length)
-	handle_joystick_input(joystick_angle, joystick_length)
+	if enabled:
+		handle_joystick_input(joystick_angle, joystick_length)
 
 func _update_inclination(angle: float, strength: float) -> void:
 	var inclination := -(strength ** 2) * PI * 0.07

@@ -15,4 +15,4 @@ func update_modification_time() -> void:
 	modification_date = _get_current_time_date_string()
 
 static func _get_current_time_date_string() -> String:
-	return Time.get_datetime_string_from_unix_time(Time.get_unix_time_from_system())
+	return Time.get_datetime_string_from_system(false) # utc=false

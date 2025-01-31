@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://7do80av5rl14"]
+
+[ext_resource type="Script" path="res://scripts/ui/bottom_bar.gd" id="1_44crx"]
+[ext_resource type="Texture2D" uid="uid://c05f65x1j18da" path="res://assets/textures/white/back.png" id="2_nppp5"]
+[ext_resource type="Texture2D" uid="uid://dlwnv35weitcg" path="res://assets/textures/white/cross.png" id="3_yqtbd"]
+
+[node name="BottomBar" type="PanelContainer"]
+custom_minimum_size = Vector2(700, 0)
+offset_right = 71.0
+offset_bottom = 56.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+script = ExtResource("1_44crx")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CircleButton"
+icon = ExtResource("2_nppp5")
+icon_alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Main menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CloseButton" type="Button" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"CircleButton"
+icon = ExtResource("3_yqtbd")

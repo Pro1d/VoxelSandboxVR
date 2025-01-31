@@ -23,13 +23,12 @@ func list_files(max_count: int) -> void:
 	for p in DirAccess.get_files_at(ROOT_DIR):
 		if p.ends_with(VOXEL_EXT):
 			var file_name := p.get_file()
-			var file_base_name := file_name.substr(file_name.length() - VOXEL_EXT.length())
+			var file_base_name := file_name.substr(0, file_name.length() - VOXEL_EXT.length())
 			known_files.append(file_base_name)
 			_highest_free_integer = maxi(_highest_free_integer, get_integer_from_file_base_name(file_base_name) + 1)
 			
 	known_files.resize(mini(known_files.size(), max_count))
 	print(known_files)
-	known_files = ["0001", "0002"]
 
 func delete_save_files(file_base_name: String) -> void:
 	ensure_ROOT_DIR()
@@ -76,14 +75,14 @@ func write_save_files(file_base_name: String, voxel_data: VoxelData, meta: MetaS
 		known_files.append(file_base_name)
 	return true
 
+func load_voxel(file_base_name: String) -> VoxelData:
+	return ResourceLoader.load(get_voxel_path(file_base_name)) as VoxelData
+
 func load_thumbnail(file_base_name: String) -> Image:
 	return Image.load_from_file(get_thumbnail_path(file_base_name))
 
 func load_meta(file_base_name: String) -> MetaSave:
 	return ResourceLoader.load(get_meta_path(file_base_name)) as MetaSave
-
-func load_voxel(file_base_name: String) -> VoxelData:
-	return ResourceLoader.load(get_meta_path(file_base_name)) as VoxelData
 
 func make_file_base_name(index: int) -> String:
 	return "%04d" % [index]

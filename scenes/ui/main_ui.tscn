@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://bw2pksnxchf6m"]
+
+[ext_resource type="PackedScene" uid="uid://3n8bubygwwa1" path="res://scenes/ui/main_menu.tscn" id="1_nwgcg"]
+[ext_resource type="Script" path="res://scripts/ui/main_ui.gd" id="1_r4fyo"]
+[ext_resource type="PackedScene" uid="uid://7do80av5rl14" path="res://scenes/ui/bottom_bar.tscn" id="2_i78l3"]
+[ext_resource type="PackedScene" uid="uid://dlj0cjfk5pcq" path="res://scenes/ui/file_manager_ui.tscn" id="2_mg404"]
+
+[node name="MainUI" type="VBoxContainer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -1257.0
+offset_right = 630.0
+grow_vertical = 0
+theme_override_constants/separation = 15
+alignment = 2
+script = ExtResource("1_r4fyo")
+
+[node name="MainMenu" parent="." instance=ExtResource("1_nwgcg")]
+layout_mode = 2
+
+[node name="FileManagerUI" parent="." instance=ExtResource("2_mg404")]
+layout_mode = 2
+
+[node name="BottomBar" parent="." instance=ExtResource("2_i78l3")]
+custom_minimum_size = Vector2(630, 0)
+layout_mode = 2
+size_flags_horizontal = 1

@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlj0cjfk5pcq"]
+
+[ext_resource type="Script" path="res://scripts/ui/file_manager_ui.gd" id="1_sbcuw"]
+[ext_resource type="PackedScene" uid="uid://61jgqbadwj7j" path="res://scenes/ui/file_item.tscn" id="2_67oev"]
+
+[node name="FileManagerUI" type="PanelContainer"]
+custom_minimum_size = Vector2(630, 630)
+offset_right = 630.0
+offset_bottom = 630.0
+script = ExtResource("1_sbcuw")
+
+[node name="FileGrid" type="GridContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 3
+
+[node name="ThumbnailTextureRect" parent="FileGrid" instance=ExtResource("2_67oev")]
+layout_mode = 2
+
+[node name="ThumbnailTextureRect2" parent="FileGrid" instance=ExtResource("2_67oev")]
+layout_mode = 2
+
+[node name="ThumbnailTextureRect3" parent="FileGrid" instance=ExtResource("2_67oev")]
+layout_mode = 2
+
+[node name="ThumbnailTextureRect4" parent="FileGrid" instance=ExtResource("2_67oev")]
+layout_mode = 2
+
+[node name="ThumbnailTextureRect5" parent="FileGrid" instance=ExtResource("2_67oev")]
+layout_mode = 2
+
+[node name="ThumbnailTextureRect6" parent="FileGrid" instance=ExtResource("2_67oev")]
+layout_mode = 2
+
+[node name="ThumbnailTextureRect7" parent="FileGrid" instance=ExtResource("2_67oev")]
+layout_mode = 2
+
+[node name="ThumbnailTextureRect8" parent="FileGrid" instance=ExtResource("2_67oev")]
+layout_mode = 2
+
+[node name="ThumbnailTextureRect9" parent="FileGrid" instance=ExtResource("2_67oev")]
+layout_mode = 2
+
+[node name="EmptyLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Your gallery is empty."

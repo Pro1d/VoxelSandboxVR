@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://nfsadpeup7je"]
+
+[ext_resource type="Shader" path="res://resources/shaders/button_hint.shader.gdshader" id="1_j6ypq"]
+[ext_resource type="Script" path="res://scripts/button_hint.gd" id="1_ytkm7"]
+[ext_resource type="Texture2D" uid="uid://buhhpca52g1q6" path="res://assets/textures/white/menu.png" id="2_wmh74"]
+[ext_resource type="FontFile" uid="uid://blltfr7arwlix" path="res://assets/fonts/Montserrat-Regular.ttf" id="4_1kvrk"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jw2mk"]
+size = Vector2(0.013, 0.013)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rmwq8"]
+render_priority = 0
+shader = ExtResource("1_j6ypq")
+shader_parameter/albedo = Color(0.06, 0.06, 0.06, 1)
+shader_parameter/roughness = 0.78
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.1
+shader_parameter/texture_albedo = ExtResource("2_wmh74")
+
+[node name="ButtonHint" type="Node3D"]
+script = ExtResource("1_ytkm7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+mesh = SubResource("PlaneMesh_jw2mk")
+surface_material_override/0 = SubResource("ShaderMaterial_rmwq8")
+
+[node name="Label3D" type="Label3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+pixel_size = 0.001
+offset = Vector2(-35, 0)
+billboard = 1
+text = "Menu"
+font = ExtResource("4_1kvrk")
+horizontal_alignment = 2

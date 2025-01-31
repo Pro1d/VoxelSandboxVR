@@ -5,7 +5,7 @@ const ShaderRes := preload("res://resources/materials/hold_to_press_button.mater
 
 signal hold_pressed()
 
-@export var hold_timeout := 3.0
+@export var hold_timeout := 2.0
 
 var _shader : ShaderMaterial
 var _timer : Timer
@@ -30,7 +30,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if not _timer.is_stopped() or is_hold_pressed:
 		var left_ratio := _timer.time_left / _timer.wait_time if not is_hold_pressed else 0.0
-		var angle_ratio := 1.0 - left_ratio * left_ratio * left_ratio
+		var angle_ratio := 1.0 - left_ratio * left_ratio
 		_shader.set_shader_parameter("progress_angle", TAU * angle_ratio)
 
 func _clear_progress() -> void:

@@ -1,12 +1,10 @@
-[gd_scene load_steps=27 format=3 uid="uid://ds48qp4shcnp0"]
+[gd_scene load_steps=30 format=3 uid="uid://ds48qp4shcnp0"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_tnup8"]
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="2_eeql0"]
 [ext_resource type="Script" path="res://scripts/voxel_sandbox.gd" id="2_tbkfd"]
 [ext_resource type="Environment" uid="uid://jhuggnsbxa5j" path="res://resources/env.tres" id="3_3qvi7"]
-[ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="3_jkch4"]
 [ext_resource type="PackedScene" uid="uid://c138bq464sgke" path="res://scenes/voxel_mesh.tscn" id="3_nrqtq"]
-[ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="4_7nd52"]
 [ext_resource type="PackedScene" uid="uid://c3qlb2u7qe02j" path="res://scenes/color_selection_wheel.tscn" id="4_8l1mv"]
 [ext_resource type="PackedScene" uid="uid://b1u5uttihu8jk" path="res://scenes/voxel_editor_tool.tscn" id="5_1pnvx"]
 [ext_resource type="PackedScene" uid="uid://rveu2i12t2oa" path="res://scenes/voxel_transformer_tool.tscn" id="5_3c83l"]
@@ -14,9 +12,31 @@
 [ext_resource type="PackedScene" uid="uid://bkws2c0t51w4h" path="res://scenes/tool_selection_wheel.tscn" id="7_e78cr"]
 [ext_resource type="PackedScene" uid="uid://1ovxvhfguoqq" path="res://scenes/voxel_editor.tscn" id="7_yoehc"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="9_epn2t"]
+[ext_resource type="PackedScene" uid="uid://bw2pksnxchf6m" path="res://scenes/ui/main_ui.tscn" id="11_3fsgg"]
+[ext_resource type="PackedScene" uid="uid://nfsadpeup7je" path="res://scenes/button_hint.tscn" id="12_rjbnd"]
 [ext_resource type="Script" path="res://scripts/voxel_render.gd" id="13_0ydas"]
+[ext_resource type="Material" uid="uid://bkvdea800v7b5" path="res://addons/godot-xr-tools/materials/pointer.tres" id="14_5iu5m"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="14_274b5"]
-[ext_resource type="PackedScene" uid="uid://dlj0cjfk5pcq" path="res://scenes/ui/save_file_manager_ui.tscn" id="15_l3p65"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_djsoe"]
+resource_local_to_scene = true
+size = Vector2(0.21, 0.243)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_cu5bn"]
+viewport_path = NodePath("Viewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jno70"]
+transparency = 2
+alpha_scissor_threshold = 0.7
+alpha_antialiasing_mode = 0
+cull_mode = 2
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_cu5bn")
+texture_filter = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7st2j"]
+resource_local_to_scene = true
+size = Vector3(0.21, 0.243, 0.02)
 
 [sub_resource type="SphereMesh" id="SphereMesh_ynfht"]
 radius = 0.035
@@ -27,6 +47,19 @@ is_hemisphere = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jturd"]
 albedo_color = Color(0.08, 0.08, 0.08, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_nhpd7"]
+top_radius = 0.003
+bottom_radius = 0.003
+height = 0.005
+radial_segments = 8
+rings = 1
+cap_bottom = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kymet"]
+albedo_color = Color(0.08, 0.08, 0.08, 1)
+metallic = 0.18
+roughness = 0.58
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_8iups"]
 radius = 0.015
@@ -39,28 +72,16 @@ albedo_color = Color(0.08, 0.08, 0.08, 1)
 metallic = 0.08
 roughness = 0.69
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kymet"]
-albedo_color = Color(0.08, 0.08, 0.08, 1)
-metallic = 0.18
-roughness = 0.58
-
-[sub_resource type="QuadMesh" id="QuadMesh_djsoe"]
-resource_local_to_scene = true
-size = Vector2(0.252, 0.289)
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_gm2jf"]
-viewport_path = NodePath("Viewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wudl4"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_db6iu"]
 transparency = 1
-cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_gm2jf")
-texture_filter = 1
+albedo_color = Color(0.56, 0.824, 1, 0.807843)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_7st2j"]
+[sub_resource type="BoxMesh" id="BoxMesh_f3dvg"]
 resource_local_to_scene = true
-size = Vector3(0.252, 0.289, 0.02)
+material = ExtResource("14_5iu5m")
+size = Vector3(0.001, 0.001, 0.5)
+subdivide_depth = 20
 
 [node name="VoxelSandbox" instance=ExtResource("1_tnup8")]
 script = ExtResource("2_tbkfd")
@@ -84,103 +105,158 @@ far = 50.0
 [node name="LeftHand" parent="XROrigin3D" index="1"]
 unique_name_in_owner = true
 
-[node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("3_jkch4")]
-visible = false
-
-[node name="ColorSelectionWheel" parent="XROrigin3D/LeftHand" index="1" node_paths=PackedStringArray("color_picker_tool") instance=ExtResource("4_8l1mv")]
+[node name="ColorSelectionWheel" parent="XROrigin3D/LeftHand" index="0" node_paths=PackedStringArray("color_picker_tool") instance=ExtResource("4_8l1mv")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0129176, 0.0566893)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.013, 0.056)
 color_picker_tool = NodePath("../ColorPickerTool")
 colors = Array[Color]([Color(0.886656, 0.16463, 0.176349, 1), Color(1, 0.510002, 0.51783, 1), Color(0.957, 0.510002, 0.0625162, 1), Color(0.957, 0.768917, 0.580346, 1), Color(0.960906, 0.960906, 0.133364, 1), Color(0.960906, 0.960906, 0.698085, 1), Color(0.148989, 0.796277, 0.172442, 1), Color(0.631647, 0.921828, 0.63946, 1), Color(0, 0.921828, 0.890562, 1), Color(0.647288, 1, 0.976547, 1), Color(0.290166, 0.290166, 0.941375, 1), Color(0.666819, 0.666819, 1, 1), Color(0.925734, 0.419638, 0.941375, 1), Color(0.98436, 0.765011, 1, 1), Color(0.03, 0.03, 0.03, 1), Color(0.776745, 0.776745, 0.776745, 1), Color(0.25, 0.25, 0.25, 1), Color(1, 1, 1, 1)])
 
-[node name="VoxelTransformerTool" parent="XROrigin3D/LeftHand" index="2" node_paths=PackedStringArray("other_transformer_tool") instance=ExtResource("5_3c83l")]
+[node name="VoxelTransformerTool" parent="XROrigin3D/LeftHand" index="1" node_paths=PackedStringArray("other_transformer_tool") instance=ExtResource("5_3c83l")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0337126, 0.0833486)
 other_transformer_tool = NodePath("../../RightHand/VoxelTransformerToolSecondary")
 is_master = true
 
-[node name="ColorPickerTool" parent="XROrigin3D/LeftHand" index="3" node_paths=PackedStringArray("voxel_mesh") instance=ExtResource("6_xh5oo")]
+[node name="ColorPickerTool" parent="XROrigin3D/LeftHand" index="2" node_paths=PackedStringArray("voxel_mesh") instance=ExtResource("6_xh5oo")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00137293, 0.0564549)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.001, 0.056)
 voxel_mesh = NodePath("../../../VoxelMesh")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="XROrigin3D/LeftHand" index="4"]
-transform = Transform3D(1, 0, 0, 0, -0.999955, 0.00942466, 0, -0.00942466, -0.999955, 0, 0.002, 0.056)
+[node name="Viewport2DIn3D" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("14_274b5")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.692143, 0.72176, 0, -0.72176, 0.692143, 0.157708, 0.074165, -0.0432478)
+screen_size = Vector2(0.21, 0.243)
+collision_layer = 5242880
+viewport_size = Vector2(632, 730)
+input_keyboard = false
+transparent = 2
+alpha_scissor_threshold = 0.7
+unshaded = true
+scene_properties_keys = PackedStringArray()
+
+[node name="Viewport" parent="XROrigin3D/LeftHand/Viewport2DIn3D" index="0"]
+size = Vector2i(632, 730)
+
+[node name="MainUI" parent="XROrigin3D/LeftHand/Viewport2DIn3D/Viewport" index="0" instance=ExtResource("11_3fsgg")]
+unique_name_in_owner = true
+
+[node name="Screen" parent="XROrigin3D/LeftHand/Viewport2DIn3D" index="1"]
+mesh = SubResource("QuadMesh_djsoe")
+surface_material_override/0 = SubResource("StandardMaterial3D_jno70")
+
+[node name="StaticBody3D" parent="XROrigin3D/LeftHand/Viewport2DIn3D" index="2"]
+collision_layer = 5242880
+screen_size = Vector2(0.21, 0.243)
+viewport_size = Vector2(632, 730)
+
+[node name="CollisionShape3D" parent="XROrigin3D/LeftHand/Viewport2DIn3D/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_7st2j")
+
+[node name="ButtonHint" parent="XROrigin3D/LeftHand" index="4" instance=ExtResource("12_rjbnd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0351195, 0, 0.0871272)
+camera = NodePath("../../XRCamera3D")
+
+[node name="ControllerVisual" type="Node3D" parent="XROrigin3D/LeftHand" index="5"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="XROrigin3D/LeftHand/ControllerVisual" index="0"]
+transform = Transform3D(1, 0, 0, 0, -0.999955, 0.00942466, 0, -0.00942466, -0.999955, 0, 0.00199997, 0.056)
 mesh = SubResource("SphereMesh_ynfht")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_jturd")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="XROrigin3D/LeftHand" index="5"]
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="XROrigin3D/LeftHand/ControllerVisual/MeshInstance3D2" index="0"]
+transform = Transform3D(0.8, 0, 0, 0, 0.00753977, -0.799965, 0, 0.799965, 0.00753977, 0, 0.00232476, 0.0358251)
+mesh = SubResource("CylinderMesh_nhpd7")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_kymet")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="XROrigin3D/LeftHand/ControllerVisual" index="1"]
 transform = Transform3D(1, 0, 0, 0, 0.740382, 0.672186, 0, -0.672186, 0.740382, -0.00620139, -0.0354176, 0.0984073)
 mesh = SubResource("CapsuleMesh_8iups")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_5unew")
 
-[node name="FunctionPointer" parent="XROrigin3D/LeftHand" index="6" instance=ExtResource("9_epn2t")]
-distance = 0.5
-show_laser = 2
-laser_length = 1
-show_target = true
-target_radius = 0.003
-suppress_radius = 0.05
-
 [node name="RightHand" parent="XROrigin3D" index="2"]
 unique_name_in_owner = true
 
-[node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("4_7nd52")]
-visible = false
-
-[node name="ToolSelectionWheel" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("7_e78cr")]
+[node name="ToolSelectionWheel" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("7_e78cr")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.013, 0.057)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.013, 0.056)
 
-[node name="VoxelEditorTool" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("5_1pnvx")]
+[node name="VoxelEditorTool" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("5_1pnvx")]
 unique_name_in_owner = true
 
-[node name="VoxelTransformerToolSecondary" parent="XROrigin3D/RightHand" index="3" node_paths=PackedStringArray("other_transformer_tool") instance=ExtResource("5_3c83l")]
+[node name="VoxelTransformerToolSecondary" parent="XROrigin3D/RightHand" index="2" node_paths=PackedStringArray("other_transformer_tool") instance=ExtResource("5_3c83l")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0337126, 0.0833486)
 other_transformer_tool = NodePath("../../LeftHand/VoxelTransformerTool")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="XROrigin3D/RightHand" index="4"]
-transform = Transform3D(1, 0, 0, 0, -0.999955, 0.00942466, 0, -0.00942466, -0.999955, 0, 0.002, 0.056)
+[node name="FunctionPointer" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("9_epn2t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.70214e-05, 0.0191463)
+y_offset = 0.0
+distance = 0.5
+show_laser = 2
+laser_length = 1
+laser_material = SubResource("StandardMaterial3D_db6iu")
+show_target = true
+target_radius = 0.003
+target_material = SubResource("StandardMaterial3D_db6iu")
+suppress_radius = 0.02
+
+[node name="RayCast" parent="XROrigin3D/RightHand/FunctionPointer" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Laser" parent="XROrigin3D/RightHand/FunctionPointer" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25)
+visible = false
+mesh = SubResource("BoxMesh_f3dvg")
+surface_material_override/0 = SubResource("StandardMaterial3D_db6iu")
+
+[node name="Target" parent="XROrigin3D/RightHand/FunctionPointer" index="2"]
+surface_material_override/0 = SubResource("StandardMaterial3D_db6iu")
+
+[node name="ControlllerVisual" type="Node3D" parent="XROrigin3D/RightHand" index="4"]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="XROrigin3D/RightHand/ControlllerVisual" index="0"]
+transform = Transform3D(1, 0, 0, 0, -0.999955, 0.00942466, 0, -0.00942466, -0.999955, 0, 0.00199997, 0.056)
 mesh = SubResource("SphereMesh_ynfht")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_kymet")
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="XROrigin3D/RightHand" index="5"]
-transform = Transform3D(1, 0, 0, 0, 0.740382, 0.672186, 0, -0.672186, 0.740382, 0.006, -0.035, 0.098)
-mesh = SubResource("CapsuleMesh_8iups")
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="XROrigin3D/RightHand/ControlllerVisual/MeshInstance3D2" index="0"]
+transform = Transform3D(0.8, 0, 0, 0, 0.00753977, -0.799965, 0, 0.799965, 0.00753977, 0, 0.00232476, 0.0358251)
+mesh = SubResource("CylinderMesh_nhpd7")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_kymet")
 
-[node name="FunctionPointer" parent="XROrigin3D/RightHand" index="6" instance=ExtResource("9_epn2t")]
-distance = 0.5
-show_laser = 2
-laser_length = 1
-show_target = true
-target_radius = 0.003
-suppress_radius = 0.05
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="XROrigin3D/RightHand/ControlllerVisual" index="1"]
+transform = Transform3D(1, 0, 0, 0, 0.740382, 0.672186, 0, -0.672186, 0.740382, 0.00599998, -0.035, 0.098)
+mesh = SubResource("CapsuleMesh_8iups")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_kymet")
 
 [node name="VoxelMesh" parent="." index="4" instance=ExtResource("3_nrqtq")]
 unique_name_in_owner = true
 transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 
-[node name="VoxelEditor" parent="VoxelMesh" index="0" node_paths=PackedStringArray("tool", "color_wheel", "tool_wheel", "transformer_tool", "secondary_transformer_tool") instance=ExtResource("7_yoehc")]
+[node name="VoxelEditor" parent="VoxelMesh" index="0" node_paths=PackedStringArray("tool", "color_wheel", "color_picker", "tool_wheel", "transformer_tool", "secondary_transformer_tool") instance=ExtResource("7_yoehc")]
 unique_name_in_owner = true
 tool = NodePath("../../XROrigin3D/RightHand/VoxelEditorTool")
 color_wheel = NodePath("../../XROrigin3D/LeftHand/ColorSelectionWheel")
+color_picker = NodePath("../../XROrigin3D/LeftHand/ColorPickerTool")
 tool_wheel = NodePath("../../XROrigin3D/RightHand/ToolSelectionWheel")
 transformer_tool = NodePath("../../XROrigin3D/LeftHand/VoxelTransformerTool")
 secondary_transformer_tool = NodePath("../../XROrigin3D/RightHand/VoxelTransformerToolSecondary")
 
-[node name="ThumbnailRenderer" type="SubViewport" parent="." index="5"]
+[node name="ThumbnailRenderer" type="SubViewport" parent="." index="5" node_paths=PackedStringArray("_view_node", "_voxel_mesh")]
 unique_name_in_owner = true
 process_priority = 100
 gui_disable_input = true
 size = Vector2i(200, 200)
 render_target_update_mode = 0
 script = ExtResource("13_0ydas")
+_view_node = NodePath("../XROrigin3D/XRCamera3D")
+_voxel_mesh = NodePath("../VoxelMesh")
 
 [node name="Camera3D" type="Camera3D" parent="ThumbnailRenderer" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.956501, 0.667142)
@@ -191,32 +267,5 @@ size = 1.09
 near = 0.01
 far = 10.0
 
-[node name="SaveFileManagerUIin3D" parent="." index="6" instance=ExtResource("14_274b5")]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.12223, -0.943226)
-screen_size = Vector2(0.252, 0.289)
-collision_layer = 5242880
-viewport_size = Vector2(630, 722)
-input_keyboard = false
-unshaded = true
-scene_properties_keys = PackedStringArray()
-
-[node name="Viewport" parent="SaveFileManagerUIin3D" index="0"]
-size = Vector2i(630, 722)
-
-[node name="SaveFileManagerUI" parent="SaveFileManagerUIin3D/Viewport" index="0" instance=ExtResource("15_l3p65")]
-unique_name_in_owner = true
-
-[node name="Screen" parent="SaveFileManagerUIin3D" index="1"]
-mesh = SubResource("QuadMesh_djsoe")
-surface_material_override/0 = SubResource("StandardMaterial3D_wudl4")
-
-[node name="StaticBody3D" parent="SaveFileManagerUIin3D" index="2"]
-collision_layer = 5242880
-screen_size = Vector2(0.252, 0.289)
-viewport_size = Vector2(630, 722)
-
-[node name="CollisionShape3D" parent="SaveFileManagerUIin3D/StaticBody3D" index="0"]
-shape = SubResource("BoxShape3D_7st2j")
-
-[editable path="SaveFileManagerUIin3D"]
+[editable path="XROrigin3D/LeftHand/Viewport2DIn3D"]
+[editable path="XROrigin3D/RightHand/FunctionPointer"]

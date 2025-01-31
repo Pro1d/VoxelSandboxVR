@@ -3,16 +3,23 @@ extends SubViewport
 
 signal rendered(i: Image)
 
+
+@export var _view_node : Node3D
+@export var _voxel_mesh : VoxelMesh
+
 @onready var _camera := $Camera3D as Camera3D
 
 var image : Image
 var rendering := false
 
-func render_voxel(voxel_mesh: VoxelMesh, view_origin: Vector3) -> Image:
+func render_voxel(voxel_mesh: VoxelMesh = null) -> Image:
 	if rendering:
 		return
 	rendering = true
 	
+	if voxel_mesh == null:
+		voxel_mesh = _voxel_mesh
+	var view_origin := _view_node.global_position
 	var voxel_data := voxel_mesh.voxel_data
 	
 	# Compute bounding sphere

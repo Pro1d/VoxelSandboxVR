@@ -2,8 +2,8 @@ class_name VoxelData
 extends Resource
 
 const CURRENT_VERSION := 0
-const CHUNK_SIZE := 4
-const CELL_BUFFER_SIZE := 2
+const CHUNK_SIZE := 4 # cell
+const CELL_BUFFER_SIZE := 2 # Bytes
 const CHUNK_BUFFER_SIZE := CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE * CELL_BUFFER_SIZE
 const ALL_NEIGHBORS := 0b111111
 const NO_NEIGHBOR := 0b000000
@@ -19,34 +19,32 @@ const side_dir: Array[Vector3i] = [
 ]
 
 class Cell:
-	# cell (u16) = bool(1) r(3) g(3) b(3) a(2) mat_enum(4)
-	# var has_content := false  # i.e. not empty
+	# cell (u16) = type_enum(4) r(4) g(4) b(4)
+	#   --> type_enum { EMPTY = 0, DEFAULT (FLAT?)=1, ... transparent, material... }
 	var color : Color
 	func _init(c: Color = Color()) -> void:
 		if c != null:
 			color = c
 		
 	static func is_cell(u16: int) -> bool:
-		return ((u16 & 1) == 1)
+		return ((u16 & 0b1111) != 0)
 	
 	static func from_u16(u16: int) -> Cell:
 		var cell : Cell = null
 		if Cell.is_cell(u16):
 			cell = Cell.new()
-			cell.color.r8 = (((u16 >> 1) & 0b111) * 0b001001001) >> 1
-			cell.color.g8 = (((u16 >> 4) & 0b111) * 0b001001001) >> 1
-			cell.color.b8 = (((u16 >> 7) & 0b111) * 0b001001001) >> 1
-			cell.color.a8 = ((u16 >> 10) & 0b11) * 0b01010101
+			cell.color.r8 = (((u16 >> 4) & 0b1111) * 0b00010001)
+			cell.color.g8 = (((u16 >> 8) & 0b1111) * 0b00010001)
+			cell.color.b8 = (((u16 >> 12) & 0b1111) * 0b00010001)
 		return cell
 	
 	static func to_u16(cell: Cell) -> int:
 		var u16 := 0
 		if cell != null:
-			u16 = 1
-			u16 |= (cell.color.r8 >> 5) << 1
-			u16 |= (cell.color.g8 >> 5) << 4
-			u16 |= (cell.color.b8 >> 5) << 7
-			u16 |= (cell.color.a8 >> 6) << 10
+			u16 = 0x0001
+			u16 |= (cell.color.r8 & 0b11110000)
+			u16 |= (cell.color.g8 & 0b11110000) << 4
+			u16 |= (cell.color.b8 & 0b11110000) << 8
 		return u16
 
 @export var version := CURRENT_VERSION
@@ -175,15 +173,8 @@ func _remove_chunk(chunk_index: Vector3i) -> void:
 	chunks.erase(chunk_index)
 	
 	if (
-		# not (chunk_aabb_min < chunk_index and chunk_index < chunk_aabb_max - 1)
-		# chunk_index <= chunk_aabb_min or chunk_aabb_max-1 <= chunk_index
-		# chunk_index-1 < chunk_aabb_min or chunk_aabb_max-2 < chunk_index
-		
-		#chunk_aabb_min.min(chunk_index - Vector3i.ONE) != chunk_aabb_min
-		#or chunk_aabb_max.max(chunk_index + 2 * Vector3i.ONE) != chunk_aabb_max
-		
 		# we know: chunk_aabb_min <= chunk_index <= chunk_aabb_max - 1
-		# chunk_aabb_min == chunk_index or chunk_index == chunk_aabb_max - 1
+		# chunk_aabb_min == chunk_index or chunk_index == chunk_aabb_max
 		chunk_aabb_min.x == chunk_index.x or chunk_index.x == chunk_aabb_max.x or
 		chunk_aabb_min.y == chunk_index.y or chunk_index.y == chunk_aabb_max.y or
 		chunk_aabb_min.z == chunk_index.z or chunk_index.z == chunk_aabb_max.z

@@ -3,6 +3,11 @@ extends Node3D
 
 signal color_picked(c: Color)
 
+@export var enabled := true :
+	set(e):
+		if enabled != e:
+			enabled = e
+			visible = e
 @export var voxel_mesh : VoxelMesh
 
 var voxel_data : VoxelData:
@@ -27,6 +32,8 @@ func _on_controller_button_pressed(action: String) -> void:
 			color_picked.emit(cell.color)
 
 func _process(_delta: float) -> void:
+	if not enabled:
+		return
 	var cell_pos := voxel_mesh.global_to_voxel(_pointer_node.global_position)
 	var cell := voxel_data.get_cell(cell_pos)
 	_shader.set_shader_parameter("paint_color", cell.color if cell != null else Color(0,0,0,0))

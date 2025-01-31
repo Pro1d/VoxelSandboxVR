@@ -2,5 +2,6 @@ extends Node
 
 var console: Console
 
-func _enter_tree() -> void:
-	pass
+var meta_save : MetaSave
+var voxel_mesh : VoxelMesh
+var thumbnail_renderer : ThumbnailRenderer

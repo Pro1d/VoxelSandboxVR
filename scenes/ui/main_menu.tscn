@@ -1,0 +1,128 @@
+[gd_scene load_steps=6 format=3 uid="uid://3n8bubygwwa1"]
+
+[ext_resource type="Texture2D" uid="uid://b6ga116dl44ei" path="res://assets/textures/white_large/folder.png" id="1_1pn70"]
+[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_bn7m2"]
+[ext_resource type="Texture2D" uid="uid://dtnfax7lh0001" path="res://assets/textures/white_large/save.png" id="2_hxkd7"]
+[ext_resource type="Texture2D" uid="uid://vi8ilmuiv55f" path="res://assets/textures/white_large/new.png" id="3_2jawf"]
+[ext_resource type="Texture2D" uid="uid://d0o5jyhoj2d1w" path="res://assets/textures/white_large/cog.png" id="4_vx6id"]
+
+[node name="MainMenu" type="PanelContainer"]
+offset_right = 425.0
+offset_bottom = 517.0
+script = ExtResource("1_bn7m2")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/CenterContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/CenterContainer/GridContainer"]
+layout_mode = 2
+
+[node name="NewButton" type="Button" parent="MarginContainer/CenterContainer/GridContainer/VBoxContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"HoverableFlatIconButton"
+icon = ExtResource("3_2jawf")
+flat = true
+icon_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/CenterContainer/GridContainer/VBoxContainer3"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="MarginContainer/CenterContainer/GridContainer/VBoxContainer3/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "New Model"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/CenterContainer/GridContainer"]
+layout_mode = 2
+
+[node name="OpenButton" type="Button" parent="MarginContainer/CenterContainer/GridContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"HoverableFlatIconButton"
+icon = ExtResource("1_1pn70")
+flat = true
+icon_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/CenterContainer/GridContainer/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="MarginContainer/CenterContainer/GridContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Open Model"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/CenterContainer/GridContainer"]
+layout_mode = 2
+
+[node name="SaveButton" type="Button" parent="MarginContainer/CenterContainer/GridContainer/VBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"HoverableFlatIconButton"
+icon = ExtResource("2_hxkd7")
+flat = true
+icon_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/CenterContainer/GridContainer/VBoxContainer2"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="MarginContainer/CenterContainer/GridContainer/VBoxContainer2/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Save Model"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="MarginContainer/CenterContainer/GridContainer"]
+visible = false
+layout_mode = 2
+
+[node name="SettingsButton" type="Button" parent="MarginContainer/CenterContainer/GridContainer/VBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+focus_mode = 0
+theme_type_variation = &"HoverableFlatIconButton"
+disabled = true
+icon = ExtResource("4_vx6id")
+flat = true
+icon_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/CenterContainer/GridContainer/VBoxContainer4"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="MarginContainer/CenterContainer/GridContainer/VBoxContainer4/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 2

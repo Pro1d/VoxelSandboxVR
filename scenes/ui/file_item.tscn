@@ -2,58 +2,56 @@
 
 [ext_resource type="Script" path="res://scripts/ui/file_item.gd" id="1_2at5i"]
 [ext_resource type="Material" uid="uid://cqhn14sqkqfrq" path="res://resources/materials/hold_to_press_button.material" id="2_bgjra"]
-[ext_resource type="Texture2D" uid="uid://bb5ptqq7g2dgj" path="res://assets/textures/large_open.png" id="2_gt7dj"]
+[ext_resource type="Texture2D" uid="uid://bb5ptqq7g2dgj" path="res://assets/textures/white_large/open.png" id="2_gt7dj"]
 [ext_resource type="Texture2D" uid="uid://0eccnbf1cr31" path="res://assets/textures/delete_file2.png" id="4_1h0pv"]
 [ext_resource type="Script" path="res://scripts/ui/hold_to_press_button.gd" id="4_oyiuu"]
 
 [sub_resource type="Gradient" id="Gradient_sxi7c"]
 offsets = PackedFloat32Array(0)
-colors = PackedColorArray(0.633757, 0.633757, 0.633757, 1)
+colors = PackedColorArray(0.625597, 0.625597, 0.625597, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_bo3r2"]
 gradient = SubResource("Gradient_sxi7c")
 width = 1
 
 [sub_resource type="LabelSettings" id="LabelSettings_mud0n"]
+font_size = 19
 outline_size = 12
 outline_color = Color(0, 0, 0, 1)
 
 [node name="ThumbnailTextureRect" type="TextureRect"]
 custom_minimum_size = Vector2(200, 200)
+offset_right = 200.0
+offset_bottom = 200.0
 texture = SubResource("GradientTexture1D_bo3r2")
 script = ExtResource("1_2at5i")
 
 [node name="DarkenRect" type="ColorRect" parent="."]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
+offset_right = 200.0
+offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 0.443137)
+color = Color(0.16, 0.16, 0.16, 0.254902)
 
-[node name="TextureButton" type="TextureButton" parent="."]
+[node name="MainButton" type="Button" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture_pressed = ExtResource("2_gt7dj")
-texture_hover = ExtResource("2_gt7dj")
-stretch_mode = 3
+theme_type_variation = &"FlatIconButton"
+icon = ExtResource("2_gt7dj")
+icon_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+layout_mode = 2
+offset_right = 200.0
+offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -61,14 +59,6 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
-
-[node name="NameLabel" type="Label" parent="MarginContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 0
-text = "31/12/2024 - 12:35"
-label_settings = SubResource("LabelSettings_mud0n")
-text_overrun_behavior = 3
 
 [node name="HoldToPressButton" type="TextureButton" parent="MarginContainer"]
 unique_name_in_owner = true
@@ -80,3 +70,11 @@ texture_normal = ExtResource("4_1h0pv")
 texture_pressed = ExtResource("4_1h0pv")
 texture_hover = ExtResource("4_1h0pv")
 script = ExtResource("4_oyiuu")
+
+[node name="NameLabel" type="Label" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+text = "2022.08.08 07:30"
+label_settings = SubResource("LabelSettings_mud0n")
+text_overrun_behavior = 3
