@@ -52,7 +52,8 @@ func propagate_color_from(cell_pos: Vector3i) -> void:
 	var imin := cell_pos
 	var imax := cell_pos
 	
-	var t := Time.get_ticks_msec()
+	var p := Perf.new()
+	
 	while not stack.is_empty():
 		cell_pos = stack.pop_back()
 		cell = voxel_data.get_cell(cell_pos)
@@ -64,7 +65,7 @@ func propagate_color_from(cell_pos: Vector3i) -> void:
 				if voxel_data.has_cell(cell_pos + d):
 					stack.push_back(cell_pos + d)
 	
-	var t2 := Time.get_ticks_msec()
+	p.print_delta("fill data")
+
 	voxel_mesh.update(imin, imax)
-	var t3 := Time.get_ticks_msec()
-	prints("dfs", t2 - t, "ms", "-", "update", t3 - t2, "ms")
+	p.print_delta("fill mesh")

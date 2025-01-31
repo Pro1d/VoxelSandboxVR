@@ -19,6 +19,7 @@ func on_tool_pressed(cell_pos: Vector3i) ->  void:
 func on_tool_moved(cell_pos: Vector3i) ->  void:
 	if _drawing:
 		_box_end_index = cell_pos
+		_box_end_index = _clamped_box_end_index()
 		update_preview_visual()
 	else:
 		update_preview_visual()
@@ -41,8 +42,7 @@ func update_preview_visual() -> void:
 	if _drawing:
 		var animate := preview_box.visible and _was_drawing
 		preview_box.show()
-		var clamped_end_index := _clamped_box_end_index()
-		preview_box.set_geometry(_box_start_index, clamped_end_index, animate)
+		preview_box.set_geometry(_box_start_index, _box_end_index, animate)
 		preview_box.opacity = 1.0
 	elif can_start_draw_box(pointed_cell_pos):
 		var animate := preview_box.visible and not _was_drawing
@@ -55,11 +55,13 @@ func update_preview_visual() -> void:
 
 func draw_box() -> void:
 	assert(_drawing)
-	var clamped_end_index := _clamped_box_end_index()
-	var imin := _box_start_index.min(clamped_end_index)
-	var imax := _box_start_index.max(clamped_end_index)
+	var imin := _box_start_index.min(_box_end_index)
+	var imax := _box_start_index.max(_box_end_index)
+	var p := Perf.new()
 	voxel_mesh.voxel_data.fill_cells(imin, imax, VoxelData.Cell.new(color_wheel.selected_color()))
+	p.print_delta("box_draw data")
 	voxel_mesh.update(imin, imax)
+	p.print_delta("box_draw mesh")
 
 func can_start_draw_box(cell_pos: Vector3i) -> bool:
 	const margin := Vector3i.ONE * 8
