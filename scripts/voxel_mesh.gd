@@ -1,7 +1,7 @@
 class_name VoxelMesh
 extends Node3D
 
-const VoxelChunkScene := preload("res://scenes/voxel_chunk.tscn")
+#const VoxelChunkScene := preload("res://scenes/voxel_chunk.tscn")
 
 var voxel_data := VoxelData.new()
 
@@ -30,6 +30,11 @@ func reset_data(vd: VoxelData) -> void:
 func global_to_voxel(pos: Vector3) -> Vector3i:
 	return Vector3i(to_local(pos).round())
 
+## build the full voxel from an empty empty
+#func update_init() -> void:
+	#for chunk_index: Vector3i in voxel_data.chunks:
+		#var chunk_data := _chunk_nodes
+
 func update(imin: Vector3i, imax: Vector3i) -> void:
 	imin -= Vector3i.ONE
 	imax += Vector3i.ONE
@@ -50,7 +55,7 @@ func _update_cell(cell_pos: Vector3i, neighbors: int) -> void:
 	var chunk_index := voxel_data.get_chunk_index(cell_pos)
 	var chunk_node := _chunk_nodes.get(chunk_index) as VoxelChunk
 	if chunk_node == null:
-		chunk_node = VoxelChunkScene.instantiate()  as VoxelChunk # VoxelChunk.new()
+		chunk_node = VoxelChunk.new() #VoxelChunkScene.instantiate() as VoxelChunk
 		chunk_node.position = chunk_index * voxel_data.chunk_size
 		_chunk_nodes[chunk_index] = chunk_node
 		add_child(chunk_node)
