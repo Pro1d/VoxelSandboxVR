@@ -18,10 +18,16 @@ static var _side_faces: Array[PlaneMesh] = [
 	VoxelCellMesh._make_face(PlaneMesh.FACE_Z, true, Vector3(0, 0, -.5)),
 ]
 
+static var _cache : Array[VoxelCellMesh]
+
 var _mat : StandardMaterial3D
 
 static func create(cell: VoxelData.Cell, neighbors: int) -> VoxelCellMesh:
-	var cell_mesh := VoxelCellMesh.new()
+	var cell_mesh := _try_reuse(cell, neighbors)
+	if cell_mesh != null:
+		return cell_mesh
+	
+	cell_mesh = VoxelCellMesh.new()
 	
 	# material
 	cell_mesh._mat = StandardMaterial3D.new()
@@ -38,6 +44,17 @@ static func create(cell: VoxelData.Cell, neighbors: int) -> VoxelCellMesh:
 		cell_mesh.add_child(mi)
 
 	return cell_mesh
+
+static func _try_reuse(cell: VoxelData.Cell, neighbors: int) -> VoxelCellMesh:
+	if _cache.is_empty():
+		return null
+	var cell_mesh := _cache.pop_back() as VoxelCellMesh
+	cell_mesh.update_material(cell)
+	cell_mesh.update_mesh(neighbors)
+	return cell_mesh
+
+static func keep_for_reuse(cell_mesh: VoxelCellMesh) -> void:
+	_cache.append(cell_mesh)
 
 func update_material(cell: VoxelData.Cell) -> void:
 	_mat.albedo_color = cell.color

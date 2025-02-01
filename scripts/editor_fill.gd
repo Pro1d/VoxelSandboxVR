@@ -48,7 +48,11 @@ func propagate_color_from(cell_pos: Vector3i) -> void:
 	if cell == null or cell.color.is_equal_approx(new_cell.color):
 		return
 	var old_color := cell.color
+	
 	var stack := [cell_pos]
+	voxel_data.set_cell(cell_pos, new_cell)
+	voxel_mesh.update_material_single(cell_pos)
+	
 	var imin := cell_pos
 	var imax := cell_pos
 	
@@ -56,16 +60,17 @@ func propagate_color_from(cell_pos: Vector3i) -> void:
 	
 	while not stack.is_empty():
 		cell_pos = stack.pop_back()
-		cell = voxel_data.get_cell(cell_pos)
-		if cell.color.is_equal_approx(old_color):
-			voxel_data.set_cell(cell_pos, new_cell)
-			imin = imin.min(cell_pos)
-			imax = imax.max(cell_pos)
-			for d in VoxelData.side_dir:
-				if voxel_data.has_cell(cell_pos + d):
-					stack.push_back(cell_pos + d)
+		
+		for d in VoxelData.side_dir:
+			var cp := cell_pos + d
+			if voxel_data.get_cell(cp, cell) != null and cell.color.is_equal_approx(old_color):
+				voxel_data.set_cell(cp, new_cell)
+				voxel_mesh.update_material_single(cp)
+				imin = imin.min(cp)
+				imax = imax.max(cp)
+				stack.push_back(cp)
 	
-	p.print_delta("fill data")
+	p.print_delta("fill all")
 
-	voxel_mesh.update(imin, imax)
-	p.print_delta("fill mesh")
+	#voxel_mesh.update_material(imin, imax)
+	#p.print_delta("fill mesh")

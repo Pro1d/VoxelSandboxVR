@@ -57,7 +57,8 @@ func erase_box() -> void:
 	var p := Perf.new()
 	voxel_data.fill_cells(imin, imax, null)
 	p.print_delta("box_erase data")
-	voxel_mesh.update(imin, imax)
+	#voxel_mesh.update(imin, imax)
+	voxel_mesh.update_fill_box(imin, imax, null)
 	p.print_delta("box_erase mesh")
 
 func can_start_draw_box(cell_pos: Vector3i) -> bool:

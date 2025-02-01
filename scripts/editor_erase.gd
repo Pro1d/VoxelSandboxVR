@@ -7,10 +7,10 @@ var _drawing := false
 func on_tool_pressed(cell_pos: Vector3i) ->  void:
 	if can_erase_cell_at(cell_pos):
 		erase_cell_at(cell_pos)
-		_drawing = true
-		update_preview_visual()
 	else:
 		pass # fail
+	_drawing = true
+	update_preview_visual()
 
 func on_tool_moved(cell_pos: Vector3i) ->  void:
 	if _drawing:

@@ -50,4 +50,4 @@ func set_color_at(cell_pos: Vector3i) -> void:
 	var cell := voxel_data.get_cell(cell_pos)
 	if cell != null and not cell.color.is_equal_approx(color_wheel.selected_color()):
 		voxel_data.set_cell(cell_pos, VoxelData.Cell.new(color_wheel.selected_color()))
-		voxel_mesh.update(cell_pos, cell_pos)
+		voxel_mesh.update_material(cell_pos, cell_pos)

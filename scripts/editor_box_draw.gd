@@ -58,9 +58,11 @@ func draw_box() -> void:
 	var imin := _box_start_index.min(_box_end_index)
 	var imax := _box_start_index.max(_box_end_index)
 	var p := Perf.new()
-	voxel_mesh.voxel_data.fill_cells(imin, imax, VoxelData.Cell.new(color_wheel.selected_color()))
+	var cell := VoxelData.Cell.new(color_wheel.selected_color())
+	voxel_mesh.voxel_data.fill_cells(imin, imax, cell)
 	p.print_delta("box_draw data")
-	voxel_mesh.update(imin, imax)
+	#voxel_mesh.update(imin, imax)
+	voxel_mesh.update_fill_box(imin, imax, cell)
 	p.print_delta("box_draw mesh")
 
 func can_start_draw_box(cell_pos: Vector3i) -> bool:

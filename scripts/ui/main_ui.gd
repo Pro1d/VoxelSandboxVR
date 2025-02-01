@@ -19,7 +19,7 @@ func _ready() -> void:
 				MainMenu.ButtonType.SETTINGS:
 					_show(null, "Settings")
 				MainMenu.ButtonType.NEW:
-					pass # start blank voxel
+					_on_create_file_file_requested()
 	)
 	_bottom_bar.back_clicked.connect(_on_back_clicked)
 	_bottom_bar.close_clicked.connect(close_ui_requested.emit)
@@ -57,9 +57,28 @@ func _on_open_file_requested(file_base_name: String) -> void:
 	else:
 		Config.meta_save = SFM.load_meta(file_base_name)
 		Config.voxel_mesh.reset_data(vd)
+		Config.voxel_mesh.global_transform = _make_voxel_transform(vd, Config.camera.global_transform, Config.voxel_mesh.default_scale)
 		close_ui_requested.emit()
 
 func _on_create_file_file_requested() -> void:
 	Config.meta_save = null
-	Config.voxel_mesh.reset_data(null)
+	Config.voxel_mesh.reset_data(VoxelData.new())
+	Config.voxel_mesh.global_transform = _make_voxel_transform(null, Config.camera.global_transform, Config.voxel_mesh.default_scale)
 	close_ui_requested.emit()
+
+func _make_voxel_transform(vd: VoxelData, view_transform: Transform3D, s: Vector3) -> Transform3D:
+	var aabb_size := (Vector3(vd.chunk_aabb_max+Vector3i.ONE - vd.chunk_aabb_min) * vd.chunk_size if vd != null else Vector3.ZERO) * s
+	var heading := view_transform.basis.get_euler().y
+	var view_to_voxel_offset := Vector3.FORWARD.rotated(Vector3.UP, heading) * (aabb_size.z / 2 + 0.30)
+	var transform := view_transform.looking_at(
+		view_transform.origin + view_to_voxel_offset,
+		Vector3.UP
+	).scaled_local(s).translated(view_to_voxel_offset)
+	
+	# adjust height
+	transform.origin.y = maxf(
+		transform.origin.y - 0.05 - aabb_size.y / 2, # model top is 0.05 m below player head (desired)
+		aabb_size.y / 2 # model bottom is above ground (required)
+	)
+	var aabb_center := (Vector3(vd.chunk_aabb_max+Vector3i.ONE + vd.chunk_aabb_min) / 2 * vd.chunk_size if vd != null else Vector3.ZERO)
+	return transform.translated_local(-aabb_center)

@@ -2,6 +2,7 @@ class_name VoxelSandbox
 extends XRToolsSceneBase
 
 
+@onready var _camera := %XRCamera3D as XRCamera3D
 @onready var _left_controller := %LeftHand as XRController3D
 @onready var _right_controller := %RightHand as XRController3D
 
@@ -28,13 +29,20 @@ func _ready() -> void:
 	_left_controller.button_pressed.connect(_on_controller_button_pressed)
 	_right_controller.button_pressed.connect(_on_controller_button_pressed)
 	Config.thumbnail_renderer = _thumbnail_renderer
+	Config.camera = _camera
 	Config.voxel_mesh = _voxel_mesh
 	Config.meta_save = null
 
 func _on_controller_button_pressed(action: String) -> void:
 	match action:
 		"menu_button":
-			open_main_ui()
+			if is_main_ui_opened():
+				close_main_ui()
+			else:
+				open_main_ui()
+
+func is_main_ui_opened() -> bool:
+	return _viewport_2d.visible
 
 func open_main_ui() -> void:
 	_voxel_editor.enabled = false

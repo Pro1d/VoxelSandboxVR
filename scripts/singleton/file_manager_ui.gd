@@ -76,13 +76,13 @@ func write_save_files(file_base_name: String, voxel_data: VoxelData, meta: MetaS
 	return true
 
 func load_voxel(file_base_name: String) -> VoxelData:
-	return ResourceLoader.load(get_voxel_path(file_base_name)) as VoxelData
+	return ResourceLoader.load(get_voxel_path(file_base_name), "", ResourceLoader.CacheMode.CACHE_MODE_IGNORE) as VoxelData
 
 func load_thumbnail(file_base_name: String) -> Image:
 	return Image.load_from_file(get_thumbnail_path(file_base_name))
 
 func load_meta(file_base_name: String) -> MetaSave:
-	return ResourceLoader.load(get_meta_path(file_base_name)) as MetaSave
+	return ResourceLoader.load(get_meta_path(file_base_name), "", ResourceLoader.CacheMode.CACHE_MODE_IGNORE) as MetaSave
 
 func make_file_base_name(index: int) -> String:
 	return "%04d" % [index]

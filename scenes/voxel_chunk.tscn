@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://susm45c701iu"]
 
-[ext_resource type="Script" path="res://scripts/voxel_chunk.gd" id="1_8dtut"]
+[ext_resource type="Script" path="res://scripts/voxel_chunk_mesh.gd" id="1_8dtut"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7i8el"]
 transparency = 1
