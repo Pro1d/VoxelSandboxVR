@@ -1,62 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://1ovxvhfguoqq"]
+[gd_scene load_steps=9 format=3 uid="uid://1ovxvhfguoqq"]
 
 [ext_resource type="Script" path="res://scripts/voxel_editor.gd" id="1_25f64"]
 [ext_resource type="PackedScene" uid="uid://b5u56terht3kg" path="res://scenes/editor_base.tscn" id="2_hxavj"]
 [ext_resource type="Script" path="res://scripts/editor_draw.gd" id="2_iwqui"]
 [ext_resource type="Script" path="res://scripts/editor_erase.gd" id="4_kamvk"]
-[ext_resource type="Shader" path="res://resources/shaders/preview.gdshader" id="4_o6am6"]
 [ext_resource type="Script" path="res://scripts/editor_box_draw.gd" id="5_w7647"]
 [ext_resource type="Script" path="res://scripts/editor_box_erase.gd" id="6_r0q8l"]
 [ext_resource type="Script" path="res://scripts/editor_paint.gd" id="7_yflqw"]
 [ext_resource type="Script" path="res://scripts/editor_fill.gd" id="8_50wer"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jbtg4"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("4_o6am6")
-shader_parameter/alpha = 1.0
-shader_parameter/albedo = Color(1, 0, 0, 1)
-shader_parameter/margin = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_j1rhn"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("4_o6am6")
-shader_parameter/alpha = 1.0
-shader_parameter/albedo = Color(1, 0, 0, 1)
-shader_parameter/margin = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cqie6"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("4_o6am6")
-shader_parameter/alpha = 1.0
-shader_parameter/albedo = Color(1, 0, 0, 1)
-shader_parameter/margin = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_v5a1y"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("4_o6am6")
-shader_parameter/alpha = 1.0
-shader_parameter/albedo = Color(1, 0, 0, 1)
-shader_parameter/margin = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_c64l6"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("4_o6am6")
-shader_parameter/alpha = 1.0
-shader_parameter/albedo = Color(1, 0, 0, 1)
-shader_parameter/margin = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_f05oo"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("4_o6am6")
-shader_parameter/alpha = 1.0
-shader_parameter/albedo = Color(1, 0, 0, 1)
-shader_parameter/margin = 0.0
 
 [node name="VoxelEditor" type="Node3D"]
 script = ExtResource("1_25f64")
@@ -65,53 +16,22 @@ enabled = null
 [node name="EditorDraw" parent="." instance=ExtResource("2_hxavj")]
 script = ExtResource("2_iwqui")
 
-[node name="PreviewBox" parent="EditorDraw" index="0"]
-surface_material_override/0 = SubResource("ShaderMaterial_jbtg4")
-margin = 0.005
-
 [node name="EditorErase" parent="." instance=ExtResource("2_hxavj")]
 script = ExtResource("4_kamvk")
 tool_mode = 1
-
-[node name="PreviewBox" parent="EditorErase" index="0"]
-surface_material_override/0 = SubResource("ShaderMaterial_j1rhn")
-margin = 0.05
 
 [node name="EditorBoxDraw" parent="." instance=ExtResource("2_hxavj")]
 script = ExtResource("5_w7647")
 tool_mode = 2
 
-[node name="PreviewBox" parent="EditorBoxDraw" index="0"]
-surface_material_override/0 = SubResource("ShaderMaterial_cqie6")
-margin = 0.005
-
 [node name="EditorBoxErase" parent="." instance=ExtResource("2_hxavj")]
 script = ExtResource("6_r0q8l")
 tool_mode = 3
-
-[node name="PreviewBox" parent="EditorBoxErase" index="0"]
-surface_material_override/0 = SubResource("ShaderMaterial_v5a1y")
-margin = 0.05
 
 [node name="EditorPaint" parent="." instance=ExtResource("2_hxavj")]
 script = ExtResource("7_yflqw")
 tool_mode = 4
 
-[node name="PreviewBox" parent="EditorPaint" index="0"]
-surface_material_override/0 = SubResource("ShaderMaterial_c64l6")
-margin = 0.05
-
 [node name="EditorFill" parent="." instance=ExtResource("2_hxavj")]
 script = ExtResource("8_50wer")
 tool_mode = 5
-
-[node name="PreviewBox" parent="EditorFill" index="0"]
-surface_material_override/0 = SubResource("ShaderMaterial_f05oo")
-margin = 0.05
-
-[editable path="EditorDraw"]
-[editable path="EditorErase"]
-[editable path="EditorBoxDraw"]
-[editable path="EditorBoxErase"]
-[editable path="EditorPaint"]
-[editable path="EditorFill"]

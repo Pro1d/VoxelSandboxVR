@@ -1,69 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5u56terht3kg"]
+[gd_scene load_steps=3 format=3 uid="uid://b5u56terht3kg"]
 
 [ext_resource type="Script" path="res://scripts/editor_base.gd" id="1_ubo2m"]
-[ext_resource type="Script" path="res://scripts/preview_box.gd" id="2_foi66"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_rj21k"]
-
-[sub_resource type="Shader" id="Shader_ysass"]
-code = "// NOTE: Shader automatically converted from Godot Engine 4.3.stable's StandardMaterial3D.
-
-shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, depth_prepass_alpha, cull_disabled, unshaded;
-
-const vec3 to_luminance = vec3(.299, .587, .114);
-
-uniform float alpha = 1.0;
-uniform vec4 albedo : source_color;
-uniform float margin = 0.0;
-//uniform vec3 box_size = vec3(1.0);
-varying vec2 uv;
-varying vec2 uv_scale;
-
-void vertex() {
-	vec3 n = abs(NORMAL);
-	if (n.x > 0.001)
-		uv = VERTEX.yz;
-	else if (n.y > 0.001)
-		uv = VERTEX.zx;
-	else // (n.z > 0.0)
-		uv = VERTEX.xy;
-
-	uv -= sign(uv) * vec2(margin);
-	uv_scale = 1.0 / abs(uv);
-	uv *= uv_scale;
-}
-
-void fragment() {
-	vec2 offset = abs(uv);
-	vec2 shape2 = smoothstep(1.0 - 0.03 * uv_scale, 1.0 - 0.01 * uv_scale, abs(uv));
-	float shape = max(shape2.x, shape2.y);
-	//vec2 uv_ = fract(UV * vec2(3, 2));
-	//vec2 offset = abs(uv_ - vec2(.5)) * 2.0;
-	//float n_max = max(offset.x, offset.y);
-	//float n_min = min(offset.x, offset.y);
-	//float shape = smoothstep(.97, .99, n_max);// * smoothstep(0.7, 0.72, n_min*n_min);
-
-	float lum = dot(albedo.rgb, to_luminance);
-	ALBEDO = mix(albedo.rgb, mix(albedo.rgb, vec3(step(lum, .7)), 0.65), shape);
-	float r = length(offset) / 1.41;
-	float gradient = mix(.15, 1., r * r * r);
-	ALPHA *= mix(1.0 * alpha * gradient, 1.0, shape);
-}
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pgx1d"]
-resource_local_to_scene = true
-render_priority = 0
-shader = SubResource("Shader_ysass")
-shader_parameter/alpha = 1.0
-shader_parameter/albedo = Color(1, 0, 0, 1)
-shader_parameter/margin = 0.0
+[ext_resource type="PackedScene" uid="uid://b053lbisahyb1" path="res://scenes/preview_box.tscn" id="2_7gfm3"]
 
 [node name="EditorBase" type="Node3D"]
 script = ExtResource("1_ubo2m")
 
-[node name="PreviewBox" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_rj21k")
-surface_material_override/0 = SubResource("ShaderMaterial_pgx1d")
-script = ExtResource("2_foi66")
+[node name="PreviewBox" parent="." instance=ExtResource("2_7gfm3")]

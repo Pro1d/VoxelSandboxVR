@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://b053lbisahyb1"]
+
+[ext_resource type="Material" uid="uid://bhps88fci3t4a" path="res://resources/materials/preview_box_all.material" id="1_yudvy"]
+[ext_resource type="Script" path="res://scripts/preview_box.gd" id="2_t8wxd"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rj21k"]
+size = Vector3(3.03, 1.03, 4.33)
+
+[node name="PreviewBox" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_rj21k")
+surface_material_override/0 = ExtResource("1_yudvy")
+script = ExtResource("2_t8wxd")
+color = Color(0.87, 0.145, 0, 1)

@@ -3,6 +3,6 @@
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_disabled, unshaded;
 
-#undef ALPHA_PASS
+#define ALPHA_PASS
 
 #include "preview.gdshaderinc"

@@ -1,7 +1,7 @@
 class_name PreviewBox
 extends MeshInstance3D
 
-@export var margin := 0.0 :
+@export var margin := 0.01 :
 	set(m):
 		margin = m
 		_update_margin()
@@ -19,8 +19,11 @@ extends MeshInstance3D
 var _corner_min := Vector3.ONE * -0.5
 var _corner_max := Vector3.ONE * 0.5
 var _tween_geometry : Tween
+var _box_sign := Vector3i.ZERO
+
 @onready var _box_mesh := mesh as BoxMesh
 @onready var _mat := get_surface_override_material(0) as ShaderMaterial
+@onready var _mat2 := _mat.next_pass as ShaderMaterial
 
 func _ready() -> void:
 	_update_margin()
@@ -30,18 +33,30 @@ func _ready() -> void:
 func _update_margin() -> void:
 	if _mat == null: return
 	_mat.set_shader_parameter("margin", margin)
+	_mat2.set_shader_parameter("margin", margin)
 
 func _update_color() -> void:
 	if _mat == null: return
 	_mat.set_shader_parameter("albedo", color)
+	_mat2.set_shader_parameter("albedo", color)
 	
 func _update_opacity() -> void:
 	if _mat == null: return
 	_mat.set_shader_parameter("alpha", opacity)
+	_mat2.set_shader_parameter("alpha", opacity)
 
 func set_geometry(corner1: Vector3i, corner2: Vector3i, animate: bool) -> void:
 	var c_min := Vector3(corner1.min(corner2)) - Vector3.ONE * .5
 	var c_max := Vector3(corner1.max(corner2)) + Vector3.ONE * .5
+	
+	var new_box_sign := (corner2 - corner1)
+	if new_box_sign.x != 0: # keep previous box sign if new box sign is zero
+		_box_sign.x = clampi(new_box_sign.x, 0, 1)
+	if new_box_sign.y != 0: # keep previous box sign if new box sign is zero
+		_box_sign.y = clampi(new_box_sign.y, 0, 1)
+	if new_box_sign.z != 0: # keep previous box sign if new box sign is zero
+		_box_sign.z = clampi(new_box_sign.z, 0, 1)
+
 	if (
 		_corner_min.is_equal_approx(c_min)
 		and _corner_max.is_equal_approx(c_max)
@@ -73,8 +88,14 @@ func set_geometry(corner1: Vector3i, corner2: Vector3i, animate: bool) -> void:
 	_corner_max = c_max
 
 func _update_geometry() -> void:
-	_box_mesh.size = Vector3(_displayed_corner_max - _displayed_corner_min) + Vector3.ONE * margin * 2
+	var base_size := Vector3(_displayed_corner_max - _displayed_corner_min)
+	_box_mesh.size = base_size + Vector3.ONE * margin * 2
 	position = (_displayed_corner_min + _displayed_corner_max) / 2
+	if _mat == null: return
+	
+	var grid_offset := base_size.posmod(1.0) * Vector3(_box_sign)
+	_mat.set_shader_parameter("grid_offset", grid_offset)
+	_mat2.set_shader_parameter("grid_offset", grid_offset)
 
 func abort_animation() -> void:
 	if _tween_geometry != null:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://ds48qp4shcnp0"]
+[gd_scene load_steps=33 format=3 uid="uid://ds48qp4shcnp0"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_tnup8"]
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="2_eeql0"]
@@ -22,16 +22,16 @@
 resource_local_to_scene = true
 size = Vector2(0.21, 0.243)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_48usc"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_7guf8"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hcu8g"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kqkou"]
 transparency = 2
 alpha_scissor_threshold = 0.7
 alpha_antialiasing_mode = 0
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_48usc")
+albedo_texture = SubResource("ViewportTexture_7guf8")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7st2j"]
@@ -83,6 +83,41 @@ material = ExtResource("14_5iu5m")
 size = Vector3(0.001, 0.001, 0.5)
 subdivide_depth = 20
 
+[sub_resource type="Shader" id="Shader_j82gj"]
+code = "shader_type spatial;
+render_mode unshaded;
+
+const float inv_cell_size = 20.0;
+const float thickness = 0.00025 * inv_cell_size;
+
+void vertex() {
+}
+
+void fragment() {
+	float distance_to_origin = dot(UV - .5, UV - .5) * 0.04;
+	vec2 cell = abs(fract(UV * inv_cell_size) - .5);
+	ALPHA = (
+		smoothstep(0.5 - thickness - 0.005 - distance_to_origin * 4.0, .5 - thickness, .5-min(cell.x, cell.y))
+		* smoothstep(0.1, 0.1 -0.005, max(cell.x, cell.y))
+		* mix(.3, .0, clamp(distance_to_origin * 100.0, 0, 1))
+	);
+	ALBEDO = vec3(0.0);
+}
+
+//void light() {
+	// Called for every pixel for every light affecting the material.
+	// Uncomment to replace the default light processing function with this one.
+//}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3lqua"]
+render_priority = -10
+shader = SubResource("Shader_j82gj")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_y0yt5"]
+material = SubResource("ShaderMaterial_3lqua")
+size = Vector2(20, 20)
+
 [node name="VoxelSandbox" instance=ExtResource("1_tnup8")]
 script = ExtResource("2_tbkfd")
 
@@ -93,6 +128,7 @@ enable_passthrough = true
 transform = Transform3D(0.965926, 0, -0.258819, 0.25, -0.258819, 0.933013, -0.0669873, -0.965926, -0.25, 0, 0, 0)
 layers = 3
 light_energy = 0.5
+sky_mode = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." index="2"]
 environment = ExtResource("3_3qvi7")
@@ -109,7 +145,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.013, 0.056)
 color_picker_tool = NodePath("../ColorPickerTool")
-colors = Array[Color]([Color(0.886656, 0.16463, 0.176349, 1), Color(1, 0.510002, 0.51783, 1), Color(0.957, 0.510002, 0.0625162, 1), Color(0.957, 0.768917, 0.580346, 1), Color(0.960906, 0.960906, 0.133364, 1), Color(0.960906, 0.960906, 0.698085, 1), Color(0.148989, 0.796277, 0.172442, 1), Color(0.631647, 0.921828, 0.63946, 1), Color(0, 0.921828, 0.890562, 1), Color(0.647288, 1, 0.976547, 1), Color(0.290166, 0.290166, 0.941375, 1), Color(0.666819, 0.666819, 1, 1), Color(0.925734, 0.419638, 0.941375, 1), Color(0.98436, 0.765011, 1, 1), Color(0.03, 0.03, 0.03, 1), Color(0.776745, 0.776745, 0.776745, 1), Color(0.25, 0.25, 0.25, 1), Color(1, 1, 1, 1)])
+colors = Array[Color]([Color(0.148989, 0.796277, 0.172442, 1), Color(0.631647, 0.921828, 0.63946, 1), Color(0, 0.921828, 0.890562, 1), Color(0.647288, 1, 0.976547, 1), Color(0.290166, 0.290166, 0.941375, 1), Color(0.666819, 0.666819, 1, 1), Color(0.925734, 0.419638, 0.941375, 1), Color(0.98436, 0.765011, 1, 1), Color(0.03, 0.03, 0.03, 1), Color(0.56, 0.56, 0.56, 1), Color(0.2, 0.2, 0.2, 1), Color(1, 1, 1, 1), Color(0.886656, 0.16463, 0.176349, 1), Color(1, 0.510002, 0.51783, 1), Color(0.957, 0.510002, 0.0625162, 1), Color(0.957, 0.768917, 0.580346, 1), Color(0.960906, 0.960906, 0.133364, 1), Color(0.960906, 0.960906, 0.698085, 1)])
 
 [node name="VoxelTransformerTool" parent="XROrigin3D/LeftHand" index="1" node_paths=PackedStringArray("other_transformer_tool") instance=ExtResource("5_3c83l")]
 unique_name_in_owner = true
@@ -142,7 +178,7 @@ unique_name_in_owner = true
 
 [node name="Screen" parent="XROrigin3D/LeftHand/Viewport2DIn3D" index="1"]
 mesh = SubResource("QuadMesh_djsoe")
-surface_material_override/0 = SubResource("StandardMaterial3D_hcu8g")
+surface_material_override/0 = SubResource("StandardMaterial3D_kqkou")
 
 [node name="StaticBody3D" parent="XROrigin3D/LeftHand/Viewport2DIn3D" index="2"]
 collision_layer = 5242880
@@ -266,6 +302,13 @@ current = true
 size = 1.09
 near = 0.01
 far = 10.0
+
+[node name="GroundMeshInstance3D" type="MeshInstance3D" parent="." index="6"]
+mesh = SubResource("PlaneMesh_y0yt5")
+
+[node name="CeilMeshInstance3D" type="MeshInstance3D" parent="." index="7"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 3.4, 0)
+mesh = SubResource("PlaneMesh_y0yt5")
 
 [editable path="XROrigin3D/LeftHand/Viewport2DIn3D"]
 [editable path="XROrigin3D/RightHand/FunctionPointer"]
