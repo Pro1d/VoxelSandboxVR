@@ -7,6 +7,10 @@ var _drawing := false
 var _box_start_index := Vector3i.ZERO
 var _box_end_index := Vector3i.ZERO
 
+func _ready() -> void:
+	super()
+	preview_box.draw_cross = true
+
 func on_tool_pressed(cell_pos: Vector3i) ->  void:
 	if can_start_draw_box(cell_pos):
 		_box_start_index = cell_pos

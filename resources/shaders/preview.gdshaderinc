@@ -6,6 +6,7 @@ uniform vec3 grid_offset = vec3(0.0);
 uniform float alpha = 1.0;
 uniform vec4 albedo : source_color;
 uniform float margin = 0.01;
+uniform bool draw_cross = false;
 //uniform vec3 box_size = vec3(3,2,1);
 varying vec2 uv;
 varying vec2 uv2;
@@ -39,11 +40,17 @@ void fragment() {
 	vec2 cell = abs(fract(uv2) - .5) * 2.0;
 	vec2 grid = smoothstep(1.0 - (thickness*2.0 + aa) , 1.0 - thickness*2. , cell);
 	vec2 corner = smoothstep(0.7 - aa , 0.7 - 0. , cell);
-
+	
 	float shape = max(
 		max(edge.x, edge.y),
 		mix(.3, 1.0, float(FRONT_FACING)) * max(grid.x, grid.y) * min(corner.x, corner.y)
 	);
+	
+	if (draw_cross) {
+		float x_shape = 1.0 - smoothstep(thickness*2.0 - aa, thickness*2.0, abs(cell.x - cell.y));
+		x_shape *= 1.0 - smoothstep(0.15 - aa, 0.15, dot(cell, cell));
+		shape = max(shape, x_shape);
+	}
 
 	vec2 offset = abs(uv / uv2_size);
 	float r = length(offset) / 1.41;

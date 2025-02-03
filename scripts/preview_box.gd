@@ -1,6 +1,10 @@
 class_name PreviewBox
 extends MeshInstance3D
 
+@export var draw_cross := false :
+	set(dc):
+		draw_cross = dc
+		_update_draw_cross()
 @export var margin := 0.01 :
 	set(m):
 		margin = m
@@ -26,9 +30,15 @@ var _box_sign := Vector3i.ZERO
 @onready var _mat2 := _mat.next_pass as ShaderMaterial
 
 func _ready() -> void:
+	_update_draw_cross()
 	_update_margin()
 	_update_color()
 	_update_opacity()
+
+func _update_draw_cross() -> void:
+	if _mat == null: return
+	_mat.set_shader_parameter("draw_cross", draw_cross)
+	_mat2.set_shader_parameter("draw_cross", draw_cross)
 
 func _update_margin() -> void:
 	if _mat == null: return
