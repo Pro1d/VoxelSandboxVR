@@ -5,7 +5,7 @@ var _drawing := false
 
 func _ready() -> void:
 	super()
-	preview_box.draw_cross = true
+	preview_box.erase_mode = true
 
 func on_tool_pressed(cell_pos: Vector3i) ->  void:
 	if can_erase_cell_at(cell_pos):

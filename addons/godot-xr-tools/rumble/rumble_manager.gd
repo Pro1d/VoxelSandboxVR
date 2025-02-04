@@ -108,6 +108,14 @@ func _process(delta: float) -> void:
 				magnitude,
 				0.1,
 				0)
+		else:
+			XRServer.primary_interface.trigger_haptic_pulse(
+				HAPTIC_ACTION,
+				tracker_name, # if the tracker name isn't valid, it will error but continue
+				0,
+				0.0,
+				0.0,
+				0)
 
 
 # Add an event

@@ -1,10 +1,11 @@
 class_name PreviewBox
 extends MeshInstance3D
 
-@export var draw_cross := false :
+@export var erase_mode := false :
 	set(dc):
-		draw_cross = dc
+		erase_mode = dc
 		_update_draw_cross()
+		_update_color()
 @export var margin := 0.01 :
 	set(m):
 		margin = m
@@ -37,8 +38,8 @@ func _ready() -> void:
 
 func _update_draw_cross() -> void:
 	if _mat == null: return
-	_mat.set_shader_parameter("draw_cross", draw_cross)
-	_mat2.set_shader_parameter("draw_cross", draw_cross)
+	_mat.set_shader_parameter("draw_cross", erase_mode)
+	_mat2.set_shader_parameter("draw_cross", erase_mode)
 
 func _update_margin() -> void:
 	if _mat == null: return
@@ -47,8 +48,24 @@ func _update_margin() -> void:
 
 func _update_color() -> void:
 	if _mat == null: return
-	_mat.set_shader_parameter("albedo", color)
-	_mat2.set_shader_parameter("albedo", color)
+	if not erase_mode:
+		_mat.set_shader_parameter("albedo", color)
+		_mat2.set_shader_parameter("albedo", color)
+		var luminance := sqrt(
+			color.r * color.r * 0.299
+			+ color.g * color.g * 0.587
+			+ color.b * color.b * 0.114
+		)
+		var details_color := color.blend(Color(1,1,1,0.7) if luminance < .4 else Color(0,0,0,0.6))
+		_mat.set_shader_parameter("details_albedo", details_color)
+		_mat2.set_shader_parameter("details_albedo", details_color)
+	else:
+		var c := Color(1, 0.169, 0)
+		_mat.set_shader_parameter("albedo", c)
+		_mat2.set_shader_parameter("albedo", c)
+		var details_color := Color(1, 0.922, 0.722)
+		_mat.set_shader_parameter("details_albedo", details_color)
+		_mat2.set_shader_parameter("details_albedo", details_color)
 	
 func _update_opacity() -> void:
 	if _mat == null: return

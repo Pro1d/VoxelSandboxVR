@@ -1,10 +1,11 @@
 const vec3 to_luminance = vec3(.299, .587, .114);
-const float thickness = 0.015;
+const float thickness = 0.030;
 const float aa = 0.01;
 
 uniform vec3 grid_offset = vec3(0.0);
 uniform float alpha = 1.0;
 uniform vec4 albedo : source_color;
+uniform vec4 details_albedo : source_color;
 uniform float margin = 0.01;
 uniform bool draw_cross = false;
 //uniform vec3 box_size = vec3(3,2,1);
@@ -35,21 +36,22 @@ void vertex() {
 }
 
 void fragment() {
-	vec2 edge = smoothstep(uv2_size - (thickness + aa/uv2_size), uv2_size - thickness, abs(uv));
-
+	vec2 edge = smoothstep(uv2_size - (thickness*.5 + aa/uv2_size), uv2_size - thickness*.5, abs(uv));
 	vec2 cell = abs(fract(uv2) - .5) * 2.0;
-	vec2 grid = smoothstep(1.0 - (thickness*2.0 + aa) , 1.0 - thickness*2. , cell);
-	vec2 corner = smoothstep(0.7 - aa , 0.7 - 0. , cell);
-	
-	float shape = max(
-		max(edge.x, edge.y),
-		mix(.3, 1.0, float(FRONT_FACING)) * max(grid.x, grid.y) * min(corner.x, corner.y)
-	);
+
+	float shape = max(edge.x, edge.y);
 	
 	if (draw_cross) {
-		float x_shape = 1.0 - smoothstep(thickness*2.0 - aa, thickness*2.0, abs(cell.x - cell.y));
+		float x_shape = 1.0 - smoothstep(thickness*1.7 - aa, thickness*1.7, abs(cell.x - cell.y));
 		x_shape *= 1.0 - smoothstep(0.15 - aa, 0.15, dot(cell, cell));
 		shape = max(shape, x_shape);
+	} else { // draw corner
+		vec2 grid = smoothstep(1.0 - (thickness + aa) , 1.0 - thickness, cell);
+		vec2 corner = smoothstep(0.7 - aa , 0.7 - 0. , cell);
+		shape = max(
+			shape,
+			mix(.3, 1.0, float(FRONT_FACING)) * max(grid.x, grid.y) * min(corner.x, corner.y)
+		);
 	}
 
 	vec2 offset = abs(uv / uv2_size);
@@ -60,7 +62,7 @@ void fragment() {
 
 	float lum = dot(albedo.rgb, to_luminance);
 	vec3 color_fill = albedo.rgb;
-	vec3 color_line = mix(albedo.rgb, vec3(step(lum, .7)), 0.65);
+	vec3 color_line = details_albedo.rgb; //mix(albedo.rgb, vec3(step(lum, .7)), 0.65);
 
 	// blending: line over fill
 	float a = mix(alpha_fill, 1.0, alpha_line);

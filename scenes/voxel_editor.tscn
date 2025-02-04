@@ -11,7 +11,6 @@
 
 [node name="VoxelEditor" type="Node3D"]
 script = ExtResource("1_25f64")
-enabled = null
 
 [node name="EditorDraw" parent="." instance=ExtResource("2_hxavj")]
 script = ExtResource("2_iwqui")

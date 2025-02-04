@@ -61,7 +61,7 @@ func _on_transformed_decompose_by_tool(t: Vector3, r: Basis, s: float, ro: Vecto
 	var ry := Basis.from_euler(Vector3.UP * r.get_euler())
 	var old_scale := voxel_mesh.scale.x
 	var new_scale := old_scale * s
-	var delta_scale := Vector3.ONE * clampf(new_scale, 0.025, 0.20) / old_scale
+	var delta_scale := Vector3.ONE * clampf(new_scale, 0.01, 0.10) / old_scale
 	voxel_mesh.global_transform = Transform3D(ry.scaled(delta_scale), ro + t) * Transform3D(Basis(), -ro) * voxel_mesh.global_transform
 	
 	#voxel_mesh.global_position += t

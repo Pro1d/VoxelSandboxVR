@@ -24,10 +24,15 @@ func _ready() -> void:
 	_bottom_bar.back_clicked.connect(_on_back_clicked)
 	_bottom_bar.close_clicked.connect(close_ui_requested.emit)
 	_file_manager_ui.open_file_requested.connect(_on_open_file_requested)
-	_file_manager_ui.file_saved.connect(close_ui_requested.emit)
+	#_file_manager_ui.file_saved.connect(_on_file_saved)
+	SoundFxManager.connect_all_buttons(self)
 
 func _on_back_clicked() -> void:
 	show_main_menu()
+
+#func _on_file_saved(success: bool) -> void:
+	#if success:
+		#close_ui_requested.emit()
 
 func show_main_menu() -> void:
 	_show(_main_menu, "Main Menu")

@@ -9,7 +9,7 @@ var _box_end_index := Vector3i.ZERO
 
 func _ready() -> void:
 	super()
-	preview_box.draw_cross = true
+	preview_box.erase_mode = true
 
 func on_tool_pressed(cell_pos: Vector3i) ->  void:
 	if can_start_draw_box(cell_pos):
