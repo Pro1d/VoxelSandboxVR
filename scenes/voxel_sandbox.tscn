@@ -24,16 +24,16 @@
 resource_local_to_scene = true
 size = Vector2(0.21, 0.243)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_n6015"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_rns7u"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_svirg"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cdhea"]
 transparency = 2
 alpha_scissor_threshold = 0.7
 alpha_antialiasing_mode = 0
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_n6015")
+albedo_texture = SubResource("ViewportTexture_rns7u")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7st2j"]
@@ -180,7 +180,7 @@ unique_name_in_owner = true
 
 [node name="Screen" parent="XROrigin3D/LeftHand/Viewport2DIn3D" index="1"]
 mesh = SubResource("QuadMesh_djsoe")
-surface_material_override/0 = SubResource("StandardMaterial3D_svirg")
+surface_material_override/0 = SubResource("StandardMaterial3D_cdhea")
 
 [node name="StaticBody3D" parent="XROrigin3D/LeftHand/Viewport2DIn3D" index="2"]
 collision_layer = 5242880
@@ -195,7 +195,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0351195, 0, 0.0871272)
 camera = NodePath("../../XRCamera3D")
 
 [node name="GrabButtonHint" parent="XROrigin3D/LeftHand" index="5" instance=ExtResource("12_rjbnd")]
-transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, 0, -0.0430673, 0.0665526)
+transform = Transform3D(-5.97109e-08, 1, -1.59995e-08, -0.5, -4.37114e-08, -0.866025, -0.866025, -4.37114e-08, 0.5, 0, -0.0430673, 0.0665526)
 icon = ExtResource("11_odcsn")
 label = "Grab"
 label_side = 1
@@ -281,7 +281,7 @@ skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_kymet")
 
 [node name="GrabButtonHint" parent="XROrigin3D/RightHand" index="5" instance=ExtResource("12_rjbnd")]
-transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 3.82137e-15, 4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 0, -0.0430673, 0.0665526)
+transform = Transform3D(-1.59995e-08, -1, -5.97109e-08, 0.5, 4.37114e-08, -0.866025, 0.866025, -4.37114e-08, 0.5, 0, -0.0430673, 0.0665526)
 icon = ExtResource("11_odcsn")
 label = "Grab"
 camera = NodePath("../../XRCamera3D")

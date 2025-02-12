@@ -9,6 +9,7 @@
 size = Vector2(0.013, 0.013)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rmwq8"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_j6ypq")
 shader_parameter/albedo = Color(0.06, 0.06, 0.06, 1)
